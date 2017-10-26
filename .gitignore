@@ -1,0 +1,12 @@
+*.pyc
+__pycache__
+db.sqlite3
+
+# Test artifacts
+.cache/
+.tox/
+
+# Packaging litter
+*.egg-info
+build/
+dist/

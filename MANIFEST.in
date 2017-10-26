@@ -1,0 +1,7 @@
+include LICENSE README.md tox.ini requirements.txt
+
+recursive-include rest_auth_toolkit *.txt
+recursive-include rest_auth_toolkit *.html
+
+# ship demo in sdist, but not in wheels
+recursive-include demo *.py *.in *.txt *.html

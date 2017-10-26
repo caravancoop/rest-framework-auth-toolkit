@@ -1,0 +1,83 @@
+import os
+import binascii
+from datetime import datetime
+
+from django.conf import settings
+from django.db import models
+from django.dispatch import Signal
+from django.utils.timezone import utc
+from django.utils.translation import gettext_lazy as _
+
+from .managers import BaseAPITokenManager
+from .utils import get_setting
+
+
+email_confirmed = Signal(providing_args=['user'])
+
+
+class BaseEmailConfirmation(models.Model):
+    """Abstract model for email confirmations.
+
+    Subclass in your project to customize to your needs and make
+    migrations easy.
+    """
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('user'))
+    confirmed = models.DateTimeField(_('confirmed'), null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+    class IsExpired(Exception):
+        """Tried to confirm email after the confirmation expired."""
+
+    def __str__(self):
+        return 'Confirmation for {}'.format(self.user)
+
+    def confirm(self):
+        """Mark this record as confirmed.
+
+        The time period to confirm an email is configured with the setting
+        email_confirmation_validity_period, which defaults to 60 minutes.
+        """
+        now = datetime.now(utc)
+        delay = (now - self.created).total_seconds()
+        validity = get_setting('email_confirmation_validity_period', 60) * 60
+
+        if delay > validity:
+            raise self.IsExpired
+
+        self.confirmed = now
+        self.save()
+
+        email_confirmed.send(sender=self.__class__, user=self.user)
+
+
+class BaseAPIToken(models.Model):
+    """Abstract model for API auth tokens.
+
+    You can override generate_key in your concrete class to change
+    the way the keys are created, or redefine the key field.
+
+    Adapted from rest_framewok.authtoken.
+    """
+    key = models.CharField(_('key'), max_length=40, primary_key=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='api_tokens',
+        on_delete=models.CASCADE, verbose_name=_('user'))
+
+    objects = BaseAPITokenManager()
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.key
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+        return super(BaseAPIToken, self).save(*args, **kwargs)
+
+    def generate_key(self):
+        return binascii.hexlify(os.urandom(20)).decode()
