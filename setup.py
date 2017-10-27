@@ -32,6 +32,7 @@ setup(
     packages=[
         'rest_auth_toolkit',
     ],
+    include_package_data=True,
     install_requires=[
         'django',
         'djangorestframework',
