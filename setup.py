@@ -2,8 +2,10 @@ from setuptools import setup
 
 setup(
     name='Rest-Framework-Auth-Toolkit',
-    version='0.4',
-    url='https://github.com/caravancoop/configstore',
+    version='0.5',
+    description='Simple, flexible signup and login for APIs',
+    long_description=long_description,
+    url='https://github.com/caravancoop/rest-framework-auth-toolkit',
     author=u'Éric Araujo',
     author_email='earaujo@caravan.coop',
     classifiers=[
