@@ -1,19 +1,23 @@
 version: 2
+
+workflows:
+  version: 2
+  rest-auth-toolkit:
+    jobs:
+      - test-py36
+      - test-py27
+      - check
+
 jobs:
-  build:
+
+  test-py36:
     docker:
-      - image: debian:testing
-    working_directory: /home/ubuntu/rest-framework-auth-toolkit
+      - image: circleci/python:3.6
+    working_directory: ~/rest-auth-toolkit
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-v1
-      - run:
-          name: Install system packages
-          command: |
-            apt-get update -qq
-            apt-get install -q -y --no-install-recommends \
-                python3.6 python3.6-venv python3.5 python2.7 git
+          key: rest-auth-toolkit-py36-v1
       - run:
           name: Install CI tools
           command: |
@@ -22,17 +26,52 @@ jobs:
       - run:
           name: Test with Python 3.6
           command: venv/bin/tox -e py36
+      - save_cache:
+          key: rest-auth-toolkit-py36-v1
+          paths:
+            - venv
+            - .tox
+
+  test-py27:
+    docker:
+      - image: circleci/python:2.7
+    working_directory: ~/rest-auth-toolkit
+    steps:
+      - checkout
+      - restore_cache:
+          key: rest-auth-toolkit-py27-v1
       - run:
-          name: Test with Python 3.5
-          command: venv/bin/tox -e py35
+          name: Install CI tools
+          command: |
+            virtualenv -p python2.7 venv
+            venv/bin/pip install tox
       - run:
           name: Test with Python 2.7
           command: venv/bin/tox -e py27
+      - save_cache:
+          key: rest-auth-toolkit-py35-v1
+          paths:
+            - venv
+            - .tox
+
+  check:
+    docker:
+      - image: circleci/python:3.6
+    working_directory: ~/rest-auth-toolkit
+    steps:
+      - checkout
+      - restore_cache:
+          key: rest-auth-toolkit-check-v1
       - run:
-          name: Check packaging
+          name: Install CI tools
+          command: |
+            python3.6 -m venv venv
+            venv/bin/pip install tox
+      - run:
+          name: Check packaging and dependencies
           command: venv/bin/tox -e pkg
       - save_cache:
-          key: rest-auth-toolkit-v1
+          key: rest-auth-toolkit-check-v1
           paths:
             - venv
             - .tox

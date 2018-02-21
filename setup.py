@@ -15,12 +15,12 @@ that you can integrate and customize in your own apps.
 
 setup(
     name='Rest-Framework-Auth-Toolkit',
-    version='0.5',
+    version='0.6',
     description='Simple, flexible signup and login for APIs',
     long_description=long_description,
     url='https://github.com/caravancoop/rest-framework-auth-toolkit',
-    author=u'Éric Araujo',
-    author_email='earaujo@caravan.coop',
+    author='Caravan Coop',
+    author_email='hi@caravan.coop',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',

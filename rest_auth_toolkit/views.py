@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .serializers import FacebookLoginDeserializer, LoginDeserializer, SignupDeserializer
-from .utils import get_object_from_setting, get_setting
+from .utils import get_object_from_setting, get_setting, MissingSetting
 
 
 User = get_user_model()
@@ -25,7 +25,8 @@ class SignupView(generics.GenericAPIView):
     permission_classes = ()
     serializer_class = get_object_from_setting('signup_serializer_class',
                                                SignupDeserializer)
-    email_confirmation_class = get_object_from_setting('email_confirmation_class')
+    email_confirmation_class = get_object_from_setting('email_confirmation_class',
+                                                       None)
 
     def post(self, request):
         """Handle the request.
@@ -42,6 +43,9 @@ class SignupView(generics.GenericAPIView):
         deserializer.is_valid(raise_exception=True)
         user = deserializer.save()
 
+        if self.email_confirmation_class is None:
+            raise MissingSetting('email_confirmation_string')
+
         confirmation = self.email_confirmation_class.objects.create(user=user)
         if get_setting('email_confirmation_send_email', True):
             email_field = user.get_email_field_name()
@@ -55,7 +59,9 @@ class LoginView(generics.GenericAPIView):
 
     Response:
 
-        {"token": "string"}
+    ```json
+    {"token": "string"}
+    ```
     """
     authentication_classes = ()
     permission_classes = ()
@@ -78,7 +84,9 @@ class FacebookLoginView(generics.GenericAPIView):
 
     Response:
 
-        {"token": "string"}
+    ```json
+    {"token": "string"}
+    ```
     """
     authentication_classes = ()
     permission_classes = ()
