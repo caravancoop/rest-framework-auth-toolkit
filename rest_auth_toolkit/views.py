@@ -59,7 +59,9 @@ class LoginView(generics.GenericAPIView):
 
     Response:
 
-        {"token": "string"}
+    ```json
+    {"token": "string"}
+    ```
     """
     authentication_classes = ()
     permission_classes = ()
@@ -82,7 +84,9 @@ class FacebookLoginView(generics.GenericAPIView):
 
     Response:
 
-        {"token": "string"}
+    ```json
+    {"token": "string"}
+    ```
     """
     authentication_classes = ()
     permission_classes = ()
