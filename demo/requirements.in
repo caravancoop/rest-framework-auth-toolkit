@@ -1,6 +1,6 @@
 pip-tools
 
-django
+django ~= 1.11
 djangorestframework
 django-debug-toolbar
 
@@ -9,3 +9,7 @@ django-debug-toolbar
 
 django-model-utils
 django-shortuuidfield
+
+# for the browsable API
+markdown
+pygments

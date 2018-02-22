@@ -1,20 +1,14 @@
 from django.contrib import admin
-from django.contrib.auth.admin import GroupAdmin, UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import GroupAdmin
+
+from rest_auth_toolkit.admin import BaseEmailUserAdmin
 
 from .models import APIToken, BaseGroup, Group, User, EmailConfirmation
 
 
-class UserAdmin(BaseUserAdmin):
-    list_display = ('email', 'first_name', 'last_name', 'is_active', 'is_staff')
-    add_form_template = None
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
-        }),
-    )
+class UserAdmin(BaseEmailUserAdmin):
     date_hierarchy = 'date_joined'
-    readonly_fields = ('username', 'date_joined', 'last_login')
+    readonly_fields = ('date_joined', 'last_login')
 
 
 class EmailConfirmationAdmin(admin.ModelAdmin):
