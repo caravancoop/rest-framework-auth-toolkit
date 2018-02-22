@@ -34,7 +34,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        'django',
+        'django ~= 1.11',
         'djangorestframework',
         'facepy',
     ],
