@@ -15,7 +15,7 @@ that you can integrate and customize in your own apps.
 
 setup(
     name='Rest-Framework-Auth-Toolkit',
-    version='0.6-dev',
+    version='0.7-dev',
     description='Simple, flexible signup and login for APIs',
     long_description=long_description,
     url='https://github.com/caravancoop/rest-framework-auth-toolkit',
@@ -34,7 +34,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        'django',
+        'django ~= 1.11',
         'djangorestframework',
         'facepy',
     ],
