@@ -1,12 +1,13 @@
 *.pyc
 __pycache__
-db.sqlite3
+/demo/db.sqlite3
+/demo/.env
 
 # Test artifacts
-.cache/
-.tox/
+/.cache/
+/.tox/
 
 # Packaging litter
-*.egg-info
-build/
-dist/
+/*.egg-info
+/build/
+/dist/

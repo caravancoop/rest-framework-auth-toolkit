@@ -4,4 +4,5 @@ from .models import APIToken
 
 
 class APITokenAuthentication(TokenAuthentication):
+    keyword = 'Bearer'
     model = APIToken
