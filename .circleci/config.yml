@@ -61,7 +61,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-check-v1
+          key: rest-auth-toolkit-check-v2
       - run:
           name: Install CI tools
           command: |
@@ -71,7 +71,7 @@ jobs:
           name: Check packaging and dependencies
           command: venv/bin/tox -e pkg
       - save_cache:
-          key: rest-auth-toolkit-check-v1
+          key: rest-auth-toolkit-check-v2
           paths:
             - venv
             - .tox
