@@ -15,7 +15,7 @@ that you can integrate and customize in your own apps.
 
 setup(
     name='Rest-Framework-Auth-Toolkit',
-    version='0.8',
+    version='0.9.dev',
     description='Simple, flexible signup and login for APIs',
     long_description=long_description,
     url='https://github.com/caravancoop/rest-framework-auth-toolkit',
