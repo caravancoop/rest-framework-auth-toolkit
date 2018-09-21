@@ -4,11 +4,34 @@ workflows:
   version: 2
   rest-auth-toolkit:
     jobs:
+      - test-py37
       - test-py36
       - test-py27
       - check
 
 jobs:
+
+  test-py37:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/rest-auth-toolkit
+    steps:
+      - checkout
+      - restore_cache:
+          key: rest-auth-toolkit-py37-v1
+      - run:
+          name: Install CI tools
+          command: |
+            python3.7 -m venv venv
+            venv/bin/pip install tox
+      - run:
+          name: Test with Python 3.7
+          command: venv/bin/tox -e py37
+      - save_cache:
+          key: rest-auth-toolkit-py37-v1
+          paths:
+            - venv
+            - .tox
 
   test-py36:
     docker:
