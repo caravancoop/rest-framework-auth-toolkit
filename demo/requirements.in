@@ -1,14 +1,17 @@
 pip-tools
 
-django ~= 1.11
+django == 2.0.*
 djangorestframework
 django-debug-toolbar
 
-# Note: rest-framework-auth-toolkit is not here, it should already
-# be importable if you do pip install -e from your dev virtualenv.
-
 django-model-utils
 django-shortuuidfield
+
+# Note: rest-framework-auth-toolkit is not here, it should already
+# be importable if you do "pip install -e ." from your dev virtualenv.
+# We do include facepy here to make sure requirements.txt
+# contains all transitive dependencies.
+facepy
 
 # for the browsable API
 markdown

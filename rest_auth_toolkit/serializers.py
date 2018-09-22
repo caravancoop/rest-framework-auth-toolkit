@@ -5,7 +5,10 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-import facepy
+try:
+    import facepy
+except ImportError:
+    facepy = None
 
 
 User = get_user_model()

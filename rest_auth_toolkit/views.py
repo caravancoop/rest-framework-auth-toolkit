@@ -11,6 +11,11 @@ from rest_framework.response import Response
 from .serializers import FacebookLoginDeserializer, LoginDeserializer, SignupDeserializer
 from .utils import get_object_from_setting, get_setting, MissingSetting
 
+try:
+    import facepy
+except ImportError:
+    facepy = None
+
 
 User = get_user_model()
 Token = get_object_from_setting('api_token_class')
@@ -92,6 +97,16 @@ class FacebookLoginView(generics.GenericAPIView):
     permission_classes = ()
     serializer_class = get_object_from_setting('facebook_login_serializer_class',
                                                FacebookLoginDeserializer)
+
+    @classmethod
+    def as_view(cls, *args, **kwargs):
+        if facepy is None:
+            raise TypeError('install rest-framework-auth-toolkit[facebook] '
+                            'to enable Facebook logins')
+
+        # TODO error if settings are missing
+
+        return super(FacebookLoginView, cls).as_view(*args, **kwargs)
 
     def post(self, request):
         deserializer = self.get_serializer(data=request.data)
