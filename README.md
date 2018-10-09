@@ -21,5 +21,7 @@ a set of Django apps to include and configure in your settings, but a
 collection of mixins, base classes, base views and simple templates
 that you can integrate and customize in your own apps.
 
+See the [demo](demo/) app for example usage.
+
 ⚠️ This library is not stable yet, make sure to pin your dependencies.
 Recommended form: `rest-framework-auth-toolkit == 0.9.*`
