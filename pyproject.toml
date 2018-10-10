@@ -1,0 +1,29 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "rest_auth_toolkit"
+dist-name = "Rest_Framework_Auth_Toolkit"
+author = "Caravan Coop"
+author-email = "hi@caravan.coop"
+home-page = "https://github.com/caravancoop/rest-framework-auth-toolkit"
+description-file = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Framework :: Django :: 1.11",
+    "Framework :: Django :: 2.0",
+    "Framework :: Django :: 2.1",
+]
+requires = [
+    "django >= 1.11",
+]
+
+[tool.flit.metadata.requires-extra]
+facebook = ["facepy"]
