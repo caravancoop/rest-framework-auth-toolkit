@@ -6,6 +6,7 @@ __pycache__
 # Test artifacts
 /.cache/
 /.tox/
+/venv/
 
 # Packaging litter
 /*.egg-info
