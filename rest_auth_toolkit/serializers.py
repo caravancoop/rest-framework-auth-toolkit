@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import gettext as _
+from django.core import exceptions
+import django.contrib.auth.password_validation as validators
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -23,6 +25,23 @@ class SignupDeserializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'style': {'input_type': 'password'}},
         }
+
+    def validate(self, data):
+        user = User(**data)
+
+        password = data.get('password')
+
+        errors = dict()
+        try:
+            validators.validate_password(password=password, user=user)
+
+        except exceptions.ValidationError as e:
+            errors = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return data
 
     def create(self, validated_data):
         return User.objects.create_user(
