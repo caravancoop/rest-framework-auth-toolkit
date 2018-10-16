@@ -27,8 +27,7 @@ class SignupDeserializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
-
-        # Create a user object without saving it to get extra checks by the validators that password alone doesn't cover
+        """Create user object without saving it to get extra checks by validators"""
         user = User(**data)
 
         password = data['password']
