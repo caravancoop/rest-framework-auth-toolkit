@@ -29,7 +29,7 @@ class SignupDeserializer(serializers.ModelSerializer):
     def validate(self, data):
         user = User(**data)
 
-        password = data.get('password')
+        password = data['password']
 
         errors = dict()
         try:
