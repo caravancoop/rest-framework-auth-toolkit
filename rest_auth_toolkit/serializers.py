@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import gettext as _
-from django.core import exceptions
 from django.contrib.auth import password_validation
+from django.core import exceptions
+from django.utils.translation import gettext as _
+
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
