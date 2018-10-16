@@ -33,7 +33,7 @@ class SignupDeserializer(serializers.ModelSerializer):
 
         password = data['password']
 
-        errors = dict()
+        errors = {}
         try:
             password_validation.validate_password(password=password, user=user)
         except exceptions.ValidationError as e:
