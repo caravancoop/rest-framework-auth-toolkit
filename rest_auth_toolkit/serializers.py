@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import gettext as _
 from django.core import exceptions
-import django.contrib.auth.password_validation as validators
+from django.contrib.auth import password_validation
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -35,8 +35,7 @@ class SignupDeserializer(serializers.ModelSerializer):
 
         errors = dict()
         try:
-            validators.validate_password(password=password, user=user)
-
+            password_validation.validate_password(password=password, user=user)
         except exceptions.ValidationError as e:
             errors = list(e.messages)
 
