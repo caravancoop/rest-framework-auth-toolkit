@@ -83,7 +83,7 @@ class FacebookLoginDeserializer(serializers.Serializer):
         graph = facepy.GraphAPI(req.user.oauth_token.token)
         data = graph.get('me?fields=email,first_name,last_name,third_party_id')
 
-        extended_token = facepy.get_extended_access_token(
+        extended_token, __ = facepy.get_extended_access_token(
             req.user.oauth_token.token,
             settings.FACEBOOK_APP_ID, settings.FACEBOOK_APP_SECRET_KEY)
 
