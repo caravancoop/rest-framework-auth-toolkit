@@ -43,16 +43,23 @@ class SignupView(generics.GenericAPIView):
         email confirmation instance using the ID and call the confirm
         method.  To use a field that's not named 'id', define the setting
         email_confirmation_lookup_param (this will change the URL pattern).
+
+        If the setting is false, the user will be active immediately.
         """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
-        user = deserializer.save()
 
-        if self.email_confirmation_class is None:
-            raise MissingSetting('email_confirmation_string')
+        confirm_email = get_setting('email_confirmation_send_email', True)
 
-        confirmation = self.email_confirmation_class.objects.create(user=user)
-        if get_setting('email_confirmation_send_email', True):
+        if not confirm_email:
+            deserializer.save(is_active=True)
+        else:
+            user = deserializer.save()
+
+            if self.email_confirmation_class is None:
+                raise MissingSetting('email_confirmation_class')
+
+            confirmation = self.email_confirmation_class.objects.create(user=user)
             email_field = user.get_email_field_name()
             send_email(request, user, getattr(user, email_field), confirmation)
 
