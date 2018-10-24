@@ -9,7 +9,8 @@
 <div>
 
 <p>{% trans "Follow this link to validate your email:" %}<br>
- <a href="{{ confirmation_url }}">{{ confirmation_url }}</a></p>
+ {% url "pages:confirm-email" token=confirmation.external_id as confirmation_url %}
+ <a href="{{ base_url }}{{ confirmation_url }}">{{ base_url }}{{ confirmation_url }}</a></p>
 
 </div>
 </body>

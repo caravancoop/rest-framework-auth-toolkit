@@ -2,6 +2,6 @@
 {% load i18n %}
 
 {% trans "Follow this link to validate your email:" %}
-{{ confirmation_url }}
+{{ base_url }}{% url "pages:confirm-email" token=confirmation.external_id %}
 
 {% endautoescape %}
