@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Success! {{ site_name }}{% endblock %}
+
+{% block body %}
+<div>
+  <h1>{% trans "Success!" %}</h1>
+  <p>Your address {{ email }} is now confirmed.</p>
+</div>
+{% endblock %}

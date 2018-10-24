@@ -102,7 +102,6 @@ TIME_ZONE = 'UTC'
 
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 REST_FRAMEWORK = {
@@ -121,6 +120,5 @@ REST_FRAMEWORK = {
 REST_AUTH_TOOLKIT = {
     'email_confirmation_class': 'demo.accounts.models.EmailConfirmation',
     'email_confirmation_from': 'auth-demo@localhost',
-    'email_confirmation_lookup_field': 'external_id',
     'api_token_class': 'demo.accounts.models.APIToken',
 }
