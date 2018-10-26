@@ -74,6 +74,15 @@ class LoginView(generics.GenericAPIView):
                                                LoginDeserializer)
 
     def post(self, request):
+        """Handle the request.
+
+        To customize the request, define settings api_token_class and
+        login_serializer_class.  The data validated by the serializer is
+        passed to token_class.objects.create_token; for example, if you
+        have a subclass of LoginDeserializer that adds an optional field
+        "ip_address", you need a BaseAPITokenManager subclass that defines
+        create_token(self, user, ip_address=None).
+        """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
         data = deserializer.validated_data
@@ -83,7 +92,7 @@ class LoginView(generics.GenericAPIView):
 
 
 class FacebookLoginView(generics.GenericAPIView):
-    """Create a user from a Facebook signed request (from auth response).
+    """Create a user from a Facebook signed request (from JS auth response).
 
     The user will be active immediately, with an unusable password.
 

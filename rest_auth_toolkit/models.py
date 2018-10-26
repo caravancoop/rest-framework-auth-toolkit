@@ -88,7 +88,7 @@ class BaseAPIToken(models.Model):
     """Abstract model for API auth tokens.
 
     You can override generate_key in your concrete class to change
-    the way the keys are created, or redefine the key field.
+    the way the keys are created.  You can also redefine the key field.
 
     Adapted from rest_framework.authtoken.
     """
