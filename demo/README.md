@@ -3,6 +3,9 @@
 This is a minimal Django project that shows how to use
 the package and helps checking if changes break usage.
 
+This app is also used by the automated tests.
+
+
 ## How to install
 
 Run this command once from the repository root:
@@ -26,7 +29,7 @@ Define the environment variables needed by the app:
 
 ```
 export DEMO_FACEBOOK_APP_ID="..."
-export DEMO_FACEBOOK_SECRET_KEY="..."
+export DEMO_FACEBOOK_APP_SECRET_KEY="..."
 ```
 
 (using a [virtualenvwrapper hook](https://virtualenvwrapper.readthedocs.io/en/latest/scripts.html#postactivate)

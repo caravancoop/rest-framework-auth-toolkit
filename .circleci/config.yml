@@ -14,11 +14,21 @@ jobs:
   test-py37:
     docker:
       - image: circleci/python:3.7
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_DB: circle_test
+          POSTGRES_USER: testapp
+          POSTGRES_PASSWORD: ""
     working_directory: ~/rest-auth-toolkit
+    environment:
+      DATABASE_URL: postgres://testapp@localhost/circle_test
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-py37-v2
+          keys:
+            - rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py37-v2-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -28,7 +38,7 @@ jobs:
           name: Test with Python 3.7
           command: venv/bin/tox -e py37
       - save_cache:
-          key: rest-auth-toolkit-py37-v2
+          key: rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
@@ -36,11 +46,21 @@ jobs:
   test-py36:
     docker:
       - image: circleci/python:3.6
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_DB: circle_test
+          POSTGRES_USER: testapp
+          POSTGRES_PASSWORD: ""
     working_directory: ~/rest-auth-toolkit
+    environment:
+      DATABASE_URL: postgres://testapp@localhost/circle_test
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-py36-v2
+          keys:
+            - rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py36-v2-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -50,7 +70,7 @@ jobs:
           name: Test with Python 3.6
           command: venv/bin/tox -e py36
       - save_cache:
-          key: rest-auth-toolkit-py36-v2
+          key: rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
@@ -59,11 +79,20 @@ jobs:
     docker:
       # This image contains Python 3.6 (to install flit) and 2.7 (to run tests)
       - image: circleci/python:3.6
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_DB: circle_test
+          POSTGRES_USER: testapp
+          POSTGRES_PASSWORD: ""
     working_directory: ~/rest-auth-toolkit
+    environment:
+      DATABASE_URL: postgres://testapp@localhost/circle_test
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-py27-v2
+          keys:
+            - rest-auth-toolkit-py27-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py27-v2-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -75,7 +104,7 @@ jobs:
             venv/bin/tox --sdistonly
             venv/bin/tox -e py27
       - save_cache:
-          key: rest-auth-toolkit-py27-v2
+          key: rest-auth-toolkit-py27-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
           paths:
             - venv
             - .tox
