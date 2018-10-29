@@ -103,7 +103,7 @@ class BaseAPIToken(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.key
+        return 'API token for {user}'.format(user=self.user)
 
     def save(self, *args, **kwargs):
         if not self.key:
