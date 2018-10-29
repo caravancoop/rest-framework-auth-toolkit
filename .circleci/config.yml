@@ -25,10 +25,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
+            - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
             - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-
+            - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py37-v6-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -41,7 +41,7 @@ jobs:
           name: Check coverage with Python 3.7
           command: venv/bin/tox -e coverage
       - save_cache:
-          key: rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+          key: rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
