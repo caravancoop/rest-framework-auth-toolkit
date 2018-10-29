@@ -1,0 +1,8 @@
+flake8
+
+pytest
+pytest-env
+pytest-django
+pytest-pythonpath
+
+coverage

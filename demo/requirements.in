@@ -3,6 +3,8 @@ pip-tools
 django == 2.0.*
 djangorestframework
 django-debug-toolbar
+dj-database-url
+psycopg2
 
 django-model-utils
 django-shortuuidfield
