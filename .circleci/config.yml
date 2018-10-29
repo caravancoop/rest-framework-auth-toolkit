@@ -26,7 +26,6 @@ jobs:
       - restore_cache:
           keys:
             - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
             - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}
             - rest-auth-toolkit-py37-v6-{{ arch }}-
       - run:
