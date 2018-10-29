@@ -6,7 +6,6 @@ workflows:
     jobs:
       - test-py37
       - test-py36
-      - test-py27
       - check
 
 jobs:
@@ -26,9 +25,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - rest-auth-toolkit-py37-v2-{{ arch }}-
+            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py37-v5-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -37,8 +37,11 @@ jobs:
       - run:
           name: Test with Python 3.7
           command: venv/bin/tox -e py37
+      - run:
+          name: Check coverage with Python 3.7
+          command: venv/bin/tox -e coverage
       - save_cache:
-          key: rest-auth-toolkit-py37-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+          key: rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
@@ -58,9 +61,10 @@ jobs:
       - checkout
       - restore_cache:
           keys:
+            - rest-auth-toolkit-py36-v3-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
             - rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - rest-auth-toolkit-py36-v2-{{ arch }}-
+            - rest-auth-toolkit-py36-v3-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py36-v3-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -70,63 +74,29 @@ jobs:
           name: Test with Python 3.6
           command: venv/bin/tox -e py36
       - save_cache:
-          key: rest-auth-toolkit-py36-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-          paths:
-            - venv
-            - .tox
-
-  test-py27:
-    docker:
-      # This image contains Python 3.6 (to install flit) and 2.7 (to run tests)
-      - image: circleci/python:3.6
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_DB: circle_test
-          POSTGRES_USER: testapp
-          POSTGRES_PASSWORD: ""
-    working_directory: ~/rest-auth-toolkit
-    environment:
-      DATABASE_URL: postgres://testapp@localhost/circle_test
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - rest-auth-toolkit-py27-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - rest-auth-toolkit-py27-v2-{{ arch }}-
-      - run:
-          name: Install CI tools
-          command: |
-            python3.6 -m venv venv
-            venv/bin/pip install tox
-      - run:
-          name: Test with Python 2.7
-          command: |
-            venv/bin/tox --sdistonly
-            venv/bin/tox -e py27
-      - save_cache:
-          key: rest-auth-toolkit-py27-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
+          key: rest-auth-toolkit-py36-v3-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
 
   check:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.7
     working_directory: ~/rest-auth-toolkit
     steps:
       - checkout
       - restore_cache:
-          key: rest-auth-toolkit-check-v3
+          key: rest-auth-toolkit-check-v5
       - run:
           name: Install CI tools
           command: |
-            python3.6 -m venv venv
+            python3.7 -m venv venv
             venv/bin/pip install tox
       - run:
           name: Check packaging and dependencies
           command: venv/bin/tox -e pkg
       - save_cache:
-          key: rest-auth-toolkit-check-v3
+          key: rest-auth-toolkit-check-v5
           paths:
             - venv
             - .tox
