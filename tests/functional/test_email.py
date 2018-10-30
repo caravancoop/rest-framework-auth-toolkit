@@ -1,5 +1,7 @@
 from django.urls import reverse
 
+from demo.accounts.models import User, APIToken
+
 
 def test_signup(db, django_app):
     params = {"email": "zack@example.com", "password": "correct battery horse staple"}
@@ -18,3 +20,23 @@ def test_signup_invalid_email(db, django_app):
     resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
 
     assert 'email' in resp.json
+
+
+def test_signup_already_exists(db, django_app):
+    User.objects.create(
+        email='julien@example.com',
+        password='unitpass123',
+        is_active=True,
+    )
+    params = {"email": "julien@example.com", "password": "unitpass123", "is_active": True}
+    resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
+
+    assert 'email' in resp.json
+
+
+def test_login_does_not_exist(db, django_app):
+    params = {"email": "pierre@example.com", "password": "correct battery horse staple"}
+    resp = django_app.post_json(reverse("auth:login"), params=params, status=400)
+
+    assert 'errors' in resp.json
+
