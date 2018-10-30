@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from demo.accounts.models import User, APIToken
+from demo.accounts.models import User
 
 
 def test_signup(db, django_app, mailoutbox):
@@ -32,7 +32,7 @@ def test_signup_already_exists(db, django_app):
         password='unitpass123',
         is_active=True,
     )
-    params = {"email": "julien@example.com", "password": "unitpass123", "is_active": True}
+    params = {"email": "julien@example.com", "password": "pass123", "is_active": True}
     resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
 
     assert 'email' in resp.json
