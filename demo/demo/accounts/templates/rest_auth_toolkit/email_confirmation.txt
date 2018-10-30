@@ -4,4 +4,7 @@
 {% trans "Follow this link to validate your email:" %}
 {{ base_url }}{% url "pages:confirm-email" token=confirmation.external_id %}
 
+{% trans "Or send an API request to simulate a front-end application:" %}
+  HTTP POST {% url "auth:confirm" %} token="{{ confirmation.external_id }}"
+
 {% endautoescape %}
