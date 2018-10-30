@@ -3,6 +3,8 @@
 from django.urls import include, path
 from django.contrib import admin
 
+from rest_framework.documentation import include_docs_urls
+
 from rest_auth_toolkit.views import FacebookLoginView, LoginView, LogoutView, SignupView
 
 
@@ -15,6 +17,7 @@ auth_urlpatterns = [
 
 api_urlpatterns = [
     path('account/', include('demo.accounts.urls')),
+    path('', include_docs_urls(title='Demo API', permission_classes=[])),
     path('', include((auth_urlpatterns, 'auth'))),
 ]
 
