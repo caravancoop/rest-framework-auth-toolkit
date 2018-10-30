@@ -6,7 +6,13 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.renderers import DocumentationRenderer
 
-from rest_auth_toolkit.views import FacebookLoginView, LoginView, LogoutView, SignupView
+from rest_auth_toolkit.views import (
+    EmailConfirmationView,
+    FacebookLoginView,
+    LoginView,
+    LogoutView,
+    SignupView,
+)
 
 
 class GoAwayRenderer(DocumentationRenderer):
@@ -16,6 +22,7 @@ class GoAwayRenderer(DocumentationRenderer):
 
 auth_urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
+    path('confirm/', EmailConfirmationView.as_view(), name='confirm'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('fb-login/', FacebookLoginView.as_view(), name='fb-login'),

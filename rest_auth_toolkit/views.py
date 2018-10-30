@@ -77,6 +77,21 @@ class SignupView(generics.GenericAPIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
+class EmailConfirmationView(generics.GenericAPIView):
+    """Validate an email address after sign-up.
+
+    Response: 200 OK (no content)
+
+    Error response (code 400):
+
+    ```json
+    {"errors": {"token": "Error message"}}
+    ```
+    """
+    def post(self, request):
+        pass
+
+
 class LoginView(generics.GenericAPIView):
     """Email address log-in endpoint.
 
