@@ -38,6 +38,18 @@ def test_signup_already_exists(db, django_app):
     assert 'email' in resp.json
 
 
+def test_login(db, django_app):
+    User.objects.create_user(
+        email='bob@example.com',
+        password='unitpass123',
+        is_active=True,
+    )
+    params = {"email": "bob@example.com", "password": "unitpass123"}
+    resp = django_app.post_json(reverse("auth:login"), params=params, status=200)
+
+    assert 'token' in resp.json
+
+
 def test_login_unknown_user(db, django_app):
     params = {"email": "pierre@example.com", "password": "correct battery horse staple"}
     resp = django_app.post_json(reverse("auth:login"), params=params, status=400)
