@@ -10,6 +10,11 @@ def test_signup(db, django_app, mailoutbox):
     m = mailoutbox[0]
     assert len(mailoutbox) == 1
     assert list(m.to) == ['zack@example.com']
+    users = User.objects.all()
+    assert len(users) == 1
+    user = users[0]
+    assert user.email == 'zack@example.com'
+    assert user.has_usable_password()
 
 
 def test_signup_same_as_password(db, django_app):
