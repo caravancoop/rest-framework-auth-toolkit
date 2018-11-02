@@ -64,9 +64,3 @@ def test_account(db, django_app, token0):
 def test_logout(db, django_app, token0):
     headers = {'Authorization': 'Bearer {}'.format(token0.key)}
     django_app.post_json(reverse("auth:logout"), headers=headers, status=200)
-
-
-def test_facebook_login_no_signed_request(db, django_app):
-    resp = django_app.post_json(reverse("auth:fb-login"), status=400)
-
-    assert "signed_request" in resp.json
