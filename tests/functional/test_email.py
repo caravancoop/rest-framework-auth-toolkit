@@ -74,9 +74,20 @@ def test_account(db, django_app):
     resp1 = django_app.post_json(reverse("auth:login"), params=params, status=200)
 
     headers = {'Authorization': 'Bearer {}'.format(resp1.json['token'])}
-    resp2 = django_app.get(reverse("user-profile"), headers=headers)
+    resp2 = django_app.get(reverse("user-profile"), headers=headers, status=200)
 
     assert 'first_name' in resp2.json
     assert 'last_name' in resp2.json
     assert 'date_joined' in resp2.json
 
+def test_logout(db, django_app):
+    User.objects.create_user(
+        email='bob@example.com',
+        password='unitpass123',
+        is_active=True,
+    )
+    params = {"email": "bob@example.com", "password": "unitpass123"}
+    resp = django_app.post_json(reverse("auth:login"), params=params, status=200)
+
+    headers = {'Authorization': 'Bearer {}'.format(resp.json['token'])}
+    django_app.post_json(reverse("auth:logout"), headers=headers, status=200)
