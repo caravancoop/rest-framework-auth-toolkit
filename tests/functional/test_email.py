@@ -1,6 +1,4 @@
 from django.urls import reverse
-from datetime import datetime
-from django.utils.timezone import utc
 
 from demo.accounts.models import User
 
@@ -79,6 +77,7 @@ def test_account(db, django_app):
     assert 'first_name' in resp2.json
     assert 'last_name' in resp2.json
     assert 'date_joined' in resp2.json
+
 
 def test_logout(db, django_app):
     User.objects.create_user(
