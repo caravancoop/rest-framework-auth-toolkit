@@ -1,4 +1,6 @@
 from django.urls import reverse
+from datetime import datetime
+from django.utils.timezone import utc
 
 from demo.accounts.models import User
 
@@ -60,3 +62,21 @@ def test_login_unknown_user(db, django_app):
     resp = django_app.post_json(reverse("auth:login"), params=params, status=400)
 
     assert 'errors' in resp.json
+
+
+def test_account(db, django_app):
+    User.objects.create_user(
+        email='bob@example.com',
+        password='unitpass123',
+        is_active=True,
+    )
+    params = {"email": "bob@example.com", "password": "unitpass123"}
+    resp1 = django_app.post_json(reverse("auth:login"), params=params, status=200)
+
+    headers = {'Authorization': 'Bearer {}'.format(resp1.json['token'])}
+    resp2 = django_app.get(reverse("user-profile"), headers=headers)
+
+    assert 'first_name' in resp2.json
+    assert 'last_name' in resp2.json
+    assert 'date_joined' in resp2.json
+
