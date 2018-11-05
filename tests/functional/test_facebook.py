@@ -35,3 +35,4 @@ def test_facebook_login(django_app, monkeypatch, userfb0, token1):
     resp = django_app.post_json(reverse('auth:fb-login'), params=params, status=200)
 
     assert resp.json.keys() == {'token'}
+    assert resp.json['token'] != token1.key
