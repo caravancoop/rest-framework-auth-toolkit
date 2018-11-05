@@ -30,6 +30,7 @@ def token0(user0):
         user=user0,
     )
 
+
 @pytest.fixture
 def token1(userfb0):
     return APIToken.objects.create_token(
