@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.translation import gettext as _
 
 from rest_framework import generics, status, views
@@ -38,25 +37,57 @@ class SignupView(generics.GenericAPIView):
 
         If the setting email_confirmation_send_email is true (default),
         the function send_email will be called.  That function requires
-        that your app define a route named app-auth:email-confirmation
-        with an id parameter; the view for this route should get an
-        email confirmation instance using the ID and call the confirm
-        method.  To use a field that's not named 'id', define the setting
-        email_confirmation_lookup_param (this will change the URL pattern).
+        that your project defines defines two email templates:
+            - rest_auth_toolkit/email_confirmation.txt
+            - rest_auth_toolkit/email_confirmation.html
+
+        The templates will be passed the User and EmailConfirmation instances
+        (as variables *user* and *confirmation*).  To help generating links,
+        a variable *base_url* with a value like "https://domain" (scheme,
+        domain and optional port depending on the request, but no path), which
+        lets you write code like `{{ base_url }}{% url "my-route" %}`.
+
+        It is up to your project to define what the link is.  The demo app
+        demonstrates a simple Django view that validates the email validation
+        token in the URL; for a project with a front-end site (e.g. a JavaScript
+        app) on a different domain than the Django API, a custom template tag
+        could be used to generate the right URL for the front-end site.
+
+        If the setting is false, the user will be active immediately.
         """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
-        user = deserializer.save()
 
-        if self.email_confirmation_class is None:
-            raise MissingSetting('email_confirmation_string')
+        confirm_email = get_setting('email_confirmation_send_email', True)
 
-        confirmation = self.email_confirmation_class.objects.create(user=user)
-        if get_setting('email_confirmation_send_email', True):
+        if not confirm_email:
+            deserializer.save(is_active=True)
+        else:
+            user = deserializer.save()
+
+            if self.email_confirmation_class is None:
+                raise MissingSetting('email_confirmation_class')
+
+            confirmation = self.email_confirmation_class.objects.create(user=user)
             email_field = user.get_email_field_name()
             send_email(request, user, getattr(user, email_field), confirmation)
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+class EmailConfirmationView(generics.GenericAPIView):
+    """Validate an email address after sign-up.
+
+    Response: 200 OK (no content)
+
+    Error response (code 400):
+
+    ```json
+    {"errors": {"token": "Error message"}}
+    ```
+    """
+    def post(self, request):
+        pass
 
 
 class LoginView(generics.GenericAPIView):
@@ -146,14 +177,14 @@ def send_email(request, user, address, confirmation):
     subject = _('Confirm your email address')
     from_address = get_setting('email_confirmation_from')
 
-    lookup_field = get_setting('email_confirmation_lookup_field', 'id')
-    confirmation_url = request.build_absolute_uri(
-        reverse('app-auth:email-confirmation',
-                kwargs={lookup_field: getattr(confirmation, lookup_field)}))
     # The url template tag doesn't include scheme/domain/port, pass a helper
     base_url = request.build_absolute_uri('/')[:-1]
 
-    context = {'base_url': base_url, 'confirmation_url': confirmation_url}
+    context = {
+        'user': user,
+        'confirmation': confirmation,
+        'base_url': base_url,
+    }
     txt_content = render_to_string('rest_auth_toolkit/email_confirmation.txt', context)
     html_content = render_to_string('rest_auth_toolkit/email_confirmation.html', context)
 
