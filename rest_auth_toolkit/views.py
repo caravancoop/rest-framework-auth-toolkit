@@ -76,7 +76,7 @@ class SignupView(generics.GenericAPIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
-class EmailConfirmationView(generics.GenericAPIView):
+class EmailConfirmationView(generics.CreateAPIView):
     """Validate an email address after sign-up.
 
     Response: 200 OK (no content)
@@ -91,12 +91,6 @@ class EmailConfirmationView(generics.GenericAPIView):
     permission_classes = ()
     serializer_class = get_object_from_setting('email_confirmation_serializer_class',
                                                EmailConfirmationDeserializer)
-
-    def post(self, request):
-        deserializer = self.get_serializer(data=request.data)
-        deserializer.is_valid(raise_exception=True)
-
-        return Response(status=status.HTTP_200_OK)
 
 
 class LoginView(generics.GenericAPIView):
