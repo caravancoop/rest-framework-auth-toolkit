@@ -7,7 +7,8 @@ from rest_framework import generics, status, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import FacebookLoginDeserializer, LoginDeserializer, SignupDeserializer
+from .serializers import FacebookLoginDeserializer, LoginDeserializer,\
+    SignupDeserializer, EmailConfirmationDeserializer
 from .utils import get_object_from_setting, get_setting, MissingSetting
 
 try:
@@ -86,8 +87,16 @@ class EmailConfirmationView(generics.GenericAPIView):
     {"errors": {"token": "Error message"}}
     ```
     """
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = get_object_from_setting('email_confirmation_serializer_class',
+                                               EmailConfirmationDeserializer)
+
     def post(self, request):
-        pass
+        deserializer = self.get_serializer(data=request.data)
+        deserializer.is_valid(raise_exception=True)
+
+        return Response(status=status.HTTP_200_OK)
 
 
 class LoginView(generics.GenericAPIView):
