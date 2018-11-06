@@ -3,11 +3,8 @@
 from django.urls import include, path
 from django.contrib import admin
 
-<<<<<<< HEAD
 from rest_framework.documentation import include_docs_urls
 
-from rest_auth_toolkit.views import FacebookLoginView, LoginView, LogoutView, SignupView
-=======
 from rest_auth_toolkit.views import (
     EmailConfirmationView,
     FacebookLoginView,
@@ -15,7 +12,6 @@ from rest_auth_toolkit.views import (
     LogoutView,
     SignupView,
 )
->>>>>>> 4eced4707f4c7b07cbbacd242e095ed010784349
 
 
 auth_urlpatterns = [
