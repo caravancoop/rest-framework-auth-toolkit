@@ -92,6 +92,12 @@ class EmailConfirmationView(generics.CreateAPIView):
     serializer_class = get_object_from_setting('email_confirmation_serializer_class',
                                                EmailConfirmationDeserializer)
 
+    def post(self, request):
+        deserializer = self.get_serializer(data=request.data)
+        deserializer.is_valid(raise_exception=True)
+
+        return Response()
+
 
 class LoginView(generics.GenericAPIView):
     """Authenticate a user, return an API auth token if valid.
