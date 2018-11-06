@@ -7,6 +7,8 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from .utils import get_object_from_setting
+
 try:
     import facepy
 except ImportError:
@@ -14,6 +16,7 @@ except ImportError:
 
 
 User = get_user_model()
+EmailConfirmation = get_object_from_setting('email_confirmation_class')
 
 
 class SignupDeserializer(serializers.ModelSerializer):
@@ -49,6 +52,22 @@ class SignupDeserializer(serializers.ModelSerializer):
             password=validated_data['password'],
             is_active=False,
         )
+
+
+class EmailConfirmationDeserializer(serializers.Serializer):
+
+    email = serializers.EmailField()
+    token = serializers.CharField()
+
+    def validate(self, data):
+        try:
+            confirmation = EmailConfirmation.objects.get(external_id=data['token'])
+            confirmation.confirm()
+        except EmailConfirmation.IsExpired:
+            msg = _('Email expired, please register again')
+            raise ValidationError({'errors': [msg]})
+
+        return {}
 
 
 class LoginDeserializer(serializers.Serializer):
