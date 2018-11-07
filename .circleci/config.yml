@@ -25,10 +25,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - rest-auth-toolkit-py37-v5-{{ arch }}-
+            - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - rest-auth-toolkit-py37-v6-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -36,15 +35,17 @@ jobs:
             venv/bin/pip install tox
       - run:
           name: Test with Python 3.7
-          command: venv/bin/tox -e py37
+          command: venv/bin/tox -e py37 -- --junitxml=~/reports/tox/coverage.xml
       - run:
           name: Check coverage with Python 3.7
           command: venv/bin/tox -e coverage
       - save_cache:
-          key: rest-auth-toolkit-py37-v5-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+          key: rest-auth-toolkit-py37-v6-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
+      - store_test_results:
+          path: ~/reports
 
   test-py36:
     docker:
@@ -72,12 +73,14 @@ jobs:
             venv/bin/pip install tox
       - run:
           name: Test with Python 3.6
-          command: venv/bin/tox -e py36
+          command: venv/bin/tox -e py36 -- --junitxml=~/reports/tox/coverage.xml
       - save_cache:
           key: rest-auth-toolkit-py36-v3-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
+      - store_test_results:
+          path: ~/reports
 
   check:
     docker:

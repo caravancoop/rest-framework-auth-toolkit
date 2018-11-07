@@ -41,3 +41,5 @@ You can then run Django commands:
 python manage.py migrate
 python manage.py runserver
 ```
+
+Then head on to `http://localhost:8000/api/` to see the endpoints available.
