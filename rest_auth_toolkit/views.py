@@ -7,8 +7,8 @@ from rest_framework import generics, status, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import FacebookLoginDeserializer, LoginDeserializer,\
-    SignupDeserializer, EmailConfirmationDeserializer
+from .serializers import (FacebookLoginDeserializer, LoginDeserializer,
+                          SignupDeserializer, EmailConfirmationDeserializer)
 from .utils import get_object_from_setting, get_setting, MissingSetting
 
 try:
@@ -22,9 +22,27 @@ Token = get_object_from_setting('api_token_class')
 
 
 class SignupView(generics.GenericAPIView):
-    """Create a user and send a confirmation email.
+    """Email address sign-up endpoint.
 
-    Response: 201 Created.
+    If the setting email_confirmation_send_email is true (default),
+    the function send_email will be called.  That function requires
+    that your project defines defines two email templates:
+        - rest_auth_toolkit/email_confirmation.txt
+        - rest_auth_toolkit/email_confirmation.html
+
+    The templates will be passed the User and EmailConfirmation instances
+    (as variables *user* and *confirmation*).  To help generating links,
+    a variable *base_url* with a value like "https://domain" (scheme,
+    domain and optional port depending on the request, but no path), which
+    lets you write code like `{{ base_url }}{% url "my-route" %}`.
+
+    It is up to your project to define what the link is.  The demo app
+    demonstrates a simple Django view that validates the email validation
+    token in the URL; for a project with a front-end site (e.g. a JavaScript
+    app) on a different domain than the Django API, a custom template tag
+    could be used to generate the right URL for the front-end site.
+
+    If the setting is false, the user will be active immediately.
     """
     authentication_classes = ()
     permission_classes = ()
@@ -34,27 +52,11 @@ class SignupView(generics.GenericAPIView):
                                                        None)
 
     def post(self, request):
-        """Handle the request.
+        """Create a user and send a confirmation email.
 
-        If the setting email_confirmation_send_email is true (default),
-        the function send_email will be called.  That function requires
-        that your project defines defines two email templates:
-            - rest_auth_toolkit/email_confirmation.txt
-            - rest_auth_toolkit/email_confirmation.html
+        Response
 
-        The templates will be passed the User and EmailConfirmation instances
-        (as variables *user* and *confirmation*).  To help generating links,
-        a variable *base_url* with a value like "https://domain" (scheme,
-        domain and optional port depending on the request, but no path), which
-        lets you write code like `{{ base_url }}{% url "my-route" %}`.
-
-        It is up to your project to define what the link is.  The demo app
-        demonstrates a simple Django view that validates the email validation
-        token in the URL; for a project with a front-end site (e.g. a JavaScript
-        app) on a different domain than the Django API, a custom template tag
-        could be used to generate the right URL for the front-end site.
-
-        If the setting is false, the user will be active immediately.
+        `201 Created`
         """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
@@ -100,13 +102,14 @@ class EmailConfirmationView(generics.CreateAPIView):
 
 
 class LoginView(generics.GenericAPIView):
-    """Authenticate a user, return an API auth token if valid.
+    """Email address log-in endpoint.
 
-    Response:
-
-    ```json
-    {"token": "string"}
-    ```
+    To customize the request, define settings api_token_class and
+    login_serializer_class.  The data validated by the serializer is
+    passed to token_class.objects.create_token; for example, if you
+    have a subclass of LoginDeserializer that adds an optional field
+    "ip_address", you need a BaseAPITokenManager subclass that defines
+    create_token(self, user, ip_address=None).
     """
     authentication_classes = ()
     permission_classes = ()
@@ -114,14 +117,13 @@ class LoginView(generics.GenericAPIView):
                                                LoginDeserializer)
 
     def post(self, request):
-        """Handle the request.
+        """Authenticate a user, return an API auth token if valid.
 
-        To customize the request, define settings api_token_class and
-        login_serializer_class.  The data validated by the serializer is
-        passed to token_class.objects.create_token; for example, if you
-        have a subclass of LoginDeserializer that adds an optional field
-        "ip_address", you need a BaseAPITokenManager subclass that defines
-        create_token(self, user, ip_address=None).
+        Response
+
+        ```json
+        {"token": "string"}
+        ```
         """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
@@ -136,7 +138,7 @@ class FacebookLoginView(generics.GenericAPIView):
 
     The user will be active immediately, with an unusable password.
 
-    Response:
+    Response
 
     ```json
     {"token": "string"}
@@ -169,7 +171,9 @@ class FacebookLoginView(generics.GenericAPIView):
 class LogoutView(views.APIView):
     """Revoke current API auth token.
 
-    Response: 200 OK.
+    Response
+
+    `200 OK`
     """
     permission_classes = (IsAuthenticated,)
 

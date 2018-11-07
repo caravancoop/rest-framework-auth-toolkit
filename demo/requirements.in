@@ -16,9 +16,5 @@ django-shortuuidfield
 # contains all transitive dependencies
 facepy
 
-# API doc
+# API docs
 coreapi
-
-# for the browsable API
-markdown
-pygments
