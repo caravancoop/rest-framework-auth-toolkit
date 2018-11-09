@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-certifi==2018.8.24        # via requests
+certifi==2018.10.15       # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
 coreapi==2.3.3
@@ -24,9 +24,9 @@ markupsafe==1.1.0         # via jinja2
 pip-tools==2.0.2
 psycopg2==2.7.5
 pytz==2018.5              # via django
-requests==2.19.1          # via coreapi, facepy
+requests==2.20.0          # via coreapi, facepy
 shortuuid==0.5.0          # via django-shortuuidfield
 six==1.11.0               # via django-shortuuidfield, facepy, pip-tools
 sqlparse==0.2.4           # via django-debug-toolbar
 uritemplate==3.0.0        # via coreapi
-urllib3==1.23             # via requests
+urllib3==1.24.1           # via requests
