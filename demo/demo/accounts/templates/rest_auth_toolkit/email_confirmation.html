@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n demotags %}
 <!doctype html>
 <html>
 <head>
@@ -11,12 +11,13 @@
 <p>
   {% trans "Follow this link to validate your email:" %}<br>
   {% url "pages:confirm-email" token=confirmation.external_id as confirmation_url %}
+  {% frontend_base_url as base_url %}
   <a href="{{ base_url }}{{ confirmation_url }}">{{ base_url }}{{ confirmation_url }}</a>
 </p>
 
 <p>
   {% trans "Or send an API request to simulate a front-end application:" %}<br>
-  <code>HTTP POST {% url "auth:confirm" %} token="{{ confirmation.external_id }}"</code>
+  <code>HTTP POST {{ base_url }}{% url "auth:confirm" %} email="{{ user.email }}" token="{{ confirmation.external_id }}"</code>
 </p>
 
 </div>
