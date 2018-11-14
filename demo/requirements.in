@@ -1,6 +1,6 @@
 pip-tools
 
-django == 2.0.*
+django == 2.1.*
 djangorestframework
 django-debug-toolbar
 dj-database-url
