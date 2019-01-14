@@ -19,7 +19,7 @@ markdown==2.6.11
 pip-tools==2.0.2
 pygments==2.2.0
 pytz==2018.5              # via django
-requests==2.19.1          # via facepy
+requests==2.21.0          # via facepy
 shortuuid==0.5.0          # via django-shortuuidfield
 six==1.11.0               # via django-shortuuidfield, facepy, pip-tools
 sqlparse==0.2.4           # via django-debug-toolbar
