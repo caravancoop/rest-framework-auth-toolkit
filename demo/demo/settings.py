@@ -2,17 +2,32 @@
 
 import os
 
+from django.core.management.utils import get_random_secret_key
+
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
+if os.getenv('RAT_TESTING'):
+    os.environ['DEMO_SECRET_KEY'] = get_random_secret_key()
+    os.environ['DEMO_FACEBOOK_APP_ID'] = 'fb app id'
+    os.environ['DEMO_FACEBOOK_APP_SECRET_KEY'] = 'fb app key'
+
+
 SECRET_KEY = os.getenv('DEMO_SECRET_KEY',
                        '1(9v73@)*ws6i(v_i5*_4ty^+ji0@7u($6onk7pt-_ncxkqs@@')
+
 DEBUG = True
 
 FACEBOOK_APP_ID = os.environ['DEMO_FACEBOOK_APP_ID']
-FACEBOOK_APP_SECRET_KEY = os.environ['DEMO_FACEBOOK_SECRET_KEY']
+FACEBOOK_APP_SECRET_KEY = os.environ['DEMO_FACEBOOK_APP_SECRET_KEY']
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ['DATABASE_URL']),
+}
 
 SITE_ID = 1
 ROOT_URLCONF = 'demo.urls'
@@ -47,14 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -102,8 +109,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # This is the real authn policy for API clients
         'demo.accounts.authentication.APITokenAuthentication',
-        # Allow using the browsable API for protected resources
-        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import password_validation
+from django.core import exceptions
 from django.utils.translation import gettext as _
 
 from rest_framework import serializers
@@ -23,6 +25,23 @@ class SignupDeserializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'style': {'input_type': 'password'}},
         }
+
+    def validate(self, data):
+        password = data['password']
+
+        # Create user object without saving it to get extra checks by validators
+        user = User(**data)
+
+        errors = {}
+        try:
+            password_validation.validate_password(password=password, user=user)
+        except exceptions.ValidationError as e:
+            errors['password'] = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return data
 
     def create(self, validated_data):
         return User.objects.create_user(
@@ -64,7 +83,7 @@ class FacebookLoginDeserializer(serializers.Serializer):
         graph = facepy.GraphAPI(req.user.oauth_token.token)
         data = graph.get('me?fields=email,first_name,last_name,third_party_id')
 
-        extended_token = facepy.get_extended_access_token(
+        extended_token, __ = facepy.get_extended_access_token(
             req.user.oauth_token.token,
             settings.FACEBOOK_APP_ID, settings.FACEBOOK_APP_SECRET_KEY)
 

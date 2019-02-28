@@ -1,8 +1,10 @@
 pip-tools
 
-django == 2.0.*
+django == 2.1.*
 djangorestframework
 django-debug-toolbar
+dj-database-url
+psycopg2
 
 django-model-utils
 django-shortuuidfield
@@ -14,6 +16,5 @@ django-shortuuidfield
 # contains all transitive dependencies
 facepy
 
-# for the browsable API
-markdown
-pygments
+# API docs
+coreapi

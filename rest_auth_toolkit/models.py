@@ -46,7 +46,7 @@ class BaseEmailUser(AbstractUser):
         return self.email
 
 
-class BaseEmailConfirmation(models.Model):
+class BaseEmailConfirmation(models.Model):  # pragma: no cover
     """Abstract model for email confirmations.
 
     Subclass in your project to customize to your needs and make
@@ -88,7 +88,7 @@ class BaseAPIToken(models.Model):
     """Abstract model for API auth tokens.
 
     You can override generate_key in your concrete class to change
-    the way the keys are created, or redefine the key field.
+    the way the keys are created.  You can also redefine the key field.
 
     Adapted from rest_framework.authtoken.
     """
@@ -103,7 +103,7 @@ class BaseAPIToken(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.key
+        return 'API token for {user}'.format(user=self.user)
 
     def save(self, *args, **kwargs):
         if not self.key:

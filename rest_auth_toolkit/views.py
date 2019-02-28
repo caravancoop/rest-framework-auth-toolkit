@@ -22,9 +22,15 @@ Token = get_object_from_setting('api_token_class')
 
 
 class SignupView(generics.GenericAPIView):
-    """Create a user and send a confirmation email.
+    """Email address sign-up endpoint.
 
-    Response: 201 Created.
+    If the setting email_confirmation_send_email is true (default),
+    the function send_email will be called.  That function requires
+    that your app define a route named app-auth:email-confirmation
+    with an id parameter; the view for this route should get an
+    email confirmation instance using the ID and call the confirm
+    method.  To use a field that's not named 'id', define the setting
+    email_confirmation_lookup_param (this will change the URL pattern).
     """
     authentication_classes = ()
     permission_classes = ()
@@ -34,15 +40,11 @@ class SignupView(generics.GenericAPIView):
                                                        None)
 
     def post(self, request):
-        """Handle the request.
+        """Create a user and send a confirmation email.
 
-        If the setting email_confirmation_send_email is true (default),
-        the function send_email will be called.  That function requires
-        that your app define a route named app-auth:email-confirmation
-        with an id parameter; the view for this route should get an
-        email confirmation instance using the ID and call the confirm
-        method.  To use a field that's not named 'id', define the setting
-        email_confirmation_lookup_param (this will change the URL pattern).
+        Response
+
+        `201 Created`
         """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
@@ -60,13 +62,14 @@ class SignupView(generics.GenericAPIView):
 
 
 class LoginView(generics.GenericAPIView):
-    """Authenticate a user, return an API auth token if valid.
+    """Email address log-in endpoint.
 
-    Response:
-
-    ```json
-    {"token": "string"}
-    ```
+    To customize the request, define settings api_token_class and
+    login_serializer_class.  The data validated by the serializer is
+    passed to token_class.objects.create_token; for example, if you
+    have a subclass of LoginDeserializer that adds an optional field
+    "ip_address", you need a BaseAPITokenManager subclass that defines
+    create_token(self, user, ip_address=None).
     """
     authentication_classes = ()
     permission_classes = ()
@@ -74,6 +77,14 @@ class LoginView(generics.GenericAPIView):
                                                LoginDeserializer)
 
     def post(self, request):
+        """Authenticate a user, return an API auth token if valid.
+
+        Response
+
+        ```json
+        {"token": "string"}
+        ```
+        """
         deserializer = self.get_serializer(data=request.data)
         deserializer.is_valid(raise_exception=True)
         data = deserializer.validated_data
@@ -83,11 +94,11 @@ class LoginView(generics.GenericAPIView):
 
 
 class FacebookLoginView(generics.GenericAPIView):
-    """Create a user from a Facebook signed request (from auth response).
+    """Create a user from a Facebook signed request (from JS auth response).
 
     The user will be active immediately, with an unusable password.
 
-    Response:
+    Response
 
     ```json
     {"token": "string"}
@@ -120,7 +131,9 @@ class FacebookLoginView(generics.GenericAPIView):
 class LogoutView(views.APIView):
     """Revoke current API auth token.
 
-    Response: 200 OK.
+    Response
+
+    `200 OK`
     """
     permission_classes = (IsAuthenticated,)
 

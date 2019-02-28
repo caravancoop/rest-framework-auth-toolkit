@@ -18,7 +18,7 @@ class EmailConfirmationAdmin(admin.ModelAdmin):
 
 
 class APITokenAdmin(admin.ModelAdmin):
-    list_display = ('key', 'user', 'created')
+    list_display = ('__str__', 'created')
     ordering = ('user', '-created')
     date_hierarchy = 'created'
     readonly_fields = ('key', 'created')
