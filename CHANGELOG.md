@@ -1,7 +1,7 @@
 # Changelog for Rest-Framework-Auth-Toolkit
 
 
-## v0.10 (unreleased)
+## v0.10
 
 Django password validators are now applied during signup.
 
@@ -10,6 +10,10 @@ Facebook login is fixed (silent error in previous version due to API change).
 Partial test coverage.
 
 API docs for the demo app.
+
+### Upgrade notes
+
+Python 3 is required!
 
 
 ## v0.9
