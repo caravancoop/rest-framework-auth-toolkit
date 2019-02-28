@@ -25,3 +25,18 @@ See the [demo](demo/) app for example usage.
 
 ⚠️ This library is not stable yet, make sure to pin your dependencies.
 Recommended form: `rest-framework-auth-toolkit == 0.9.*`
+
+See the [changelog](CHANGELOG.md) for breaking changes.
+
+
+## Contributing
+
+To run tests:
+
+```
+export DATABASE_URL=postgres://ratk@localhost:5432/ratk
+tox
+```
+
+You will have to create the `ratk` role first, as well as
+the `ratk` and `test_ratk` databases.
