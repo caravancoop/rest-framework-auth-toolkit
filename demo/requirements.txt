@@ -20,7 +20,7 @@ idna==2.8                 # via requests
 itypes==1.1.0             # via coreapi
 jinja2==2.10.1            # via coreschema
 markupsafe==1.1.1         # via jinja2
-pip-tools==3.6.1
+pip-tools==3.7.0
 psycopg2==2.8.2
 pytz==2019.1              # via django
 requests==2.21.0          # via coreapi, facepy
