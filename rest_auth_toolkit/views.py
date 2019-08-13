@@ -51,7 +51,7 @@ class SignupView(generics.GenericAPIView):
         user = deserializer.save()
 
         if self.email_confirmation_class is None:
-            raise MissingSetting('email_confirmation_string')
+            raise MissingSetting('email_confirmation_class')
 
         confirmation = self.email_confirmation_class.objects.create(user=user)
         if get_setting('email_confirmation_send_email', True):
