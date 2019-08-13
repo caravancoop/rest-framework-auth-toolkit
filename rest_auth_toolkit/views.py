@@ -57,6 +57,9 @@ class SignupView(generics.GenericAPIView):
         if get_setting('email_confirmation_send_email', True):
             email_field = user.get_email_field_name()
             send_email(request, user, getattr(user, email_field), confirmation)
+        else:
+            user.is_active = True
+            user.save()
 
         return Response(status=status.HTTP_201_CREATED)
 
