@@ -1,8 +1,8 @@
 flake8
 
 pytest
-pytest-env
 pytest-django
+pytest-env
 pytest-pythonpath
 
 coverage

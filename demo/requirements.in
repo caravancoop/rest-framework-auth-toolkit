@@ -1,6 +1,7 @@
+flit
 pip-tools
 
-django == 2.1.*
+django == 2.2.*
 djangorestframework
 django-debug-toolbar
 dj-database-url
@@ -18,3 +19,5 @@ facepy
 
 # API docs
 coreapi
+markdown
+pygments
