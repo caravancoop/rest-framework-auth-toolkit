@@ -8,18 +8,19 @@ This app is also used by the automated tests.
 
 ## How to install
 
-Run this command once from the repository root:
+To make the package `rest_auth_toolkit` importable by the demo app,
+run this command from the repository root:
 
 ```
-python setup-develop.py develop
+flit install --symlink
 ```
 
-This makes the package `rest_auth_toolkit` importable by the demo app,
-with local changes immediately seen.
+You won't need to run that again if code in `rest_auth_toolkit` changes.
 
-Go in the `demo` directory and install the other dependencies:
+Then go into the `demo` directory and install the app dependencies:
 
 ```
+cd demo
 pip install -r requirements.txt
 ```
 
@@ -28,6 +29,7 @@ pip install -r requirements.txt
 Define the environment variables needed by the app:
 
 ```
+export DATABASE_URL=postgres://restauth@localhost:5432/demo
 export DEMO_FACEBOOK_APP_ID="..."
 export DEMO_FACEBOOK_APP_SECRET_KEY="..."
 ```
@@ -35,7 +37,7 @@ export DEMO_FACEBOOK_APP_SECRET_KEY="..."
 (using a [virtualenvwrapper hook](https://virtualenvwrapper.readthedocs.io/en/latest/scripts.html#postactivate)
 or a `.env` file with [direnv](https://direnv.net/) is a good ideae to make this automatic)
 
-You can then run Django commands:
+You can then run Django commands (from the `demo` directory):
 
 ```
 python manage.py migrate

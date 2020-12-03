@@ -1,3 +1,4 @@
+flit
 pip-tools
 
 django == 2.2.*

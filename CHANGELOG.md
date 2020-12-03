@@ -1,19 +1,27 @@
 # Changelog for Rest-Framework-Auth-Toolkit
 
+## v0.11 (unreleased)
+
+Require Django 2.2 (LTS release) or 3.1
+and Python 3.7 or 3.8 #115
 
 ## v0.10
 
-Django password validators are now applied during signup.
+Django password validators are now applied during signup #23
 
-Facebook login is fixed (silent error in previous version due to API change).
+Facebook login is fixed (silent error in previous version due
+to API change) #36
 
-Partial test coverage.
+Partial test coverage #33
 
-API docs for the demo app.
+API docs for the demo app #48
 
 ### Upgrade notes
 
 Python 3 is required!
+
+If you were using `str(apitoken)` or equivalents to get the auth token
+in headers, you have to use `apitoken.key` now.
 
 
 ## v0.9

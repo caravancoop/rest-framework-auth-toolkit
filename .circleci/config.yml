@@ -34,8 +34,11 @@ jobs:
             python3.7 -m venv venv
             venv/bin/pip install tox
       - run:
-          name: Test with Python 3.7
-          command: venv/bin/tox -e py37 -- --junitxml=~/reports/tox/coverage.xml
+          name: Test with Python 3.7 and Django 2.2
+          command: venv/bin/tox -e py37-dj22 -- --junitxml=~/reports/tox/coverage.xml
+      - run:
+          name: Test with Python 3.7 and Django 3.1
+          command: venv/bin/tox -e py37-dj31
       - save_cache:
           key: rest-auth-toolkit-py37-v7-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
@@ -69,8 +72,11 @@ jobs:
             python3.8 -m venv venv
             venv/bin/pip install tox
       - run:
-          name: Test with Python 3.8
-          command: venv/bin/tox -e py38 -- --junitxml=~/reports/tox/coverage.xml
+          name: Test with Python 3.8 and Django 2.2
+          command: venv/bin/tox -e py38-dj22 -- --junitxml=~/reports/tox/coverage.xml
+      - run:
+          name: Test with Python 3.8 and Django 3.1
+          command: venv/bin/tox -e py38-dj31
       - run:
           name: Check coverage with Python 3.8
           command: venv/bin/tox -e coverage
