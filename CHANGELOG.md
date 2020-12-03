@@ -5,6 +5,15 @@
 Require Django 2.2 (LTS release) or 3.1
 and Python 3.8 or 3.9 #115
 
+A number of improvements make it easier to integrate in your
+project (#135):
+
+New class `TokenAuthentication` can be directly added to
+django-rest-framework settings for API auth.
+
+The `BaseAPIToken` class provides a default `revoke` method
+needed by the logout view.
+
 ### Upgrade notes
 
 `BaseUserEmail.natural_key` now returns a 1-element tuple

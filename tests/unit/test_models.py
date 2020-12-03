@@ -93,6 +93,12 @@ def test_apitoken_custom_generate_key(monkeypatch, user0):
     assert token.key == '2345bcde'
 
 
+def test_apitoken_revoke(token0):
+    token0.revoke()
+
+    assert list(APIToken.objects.all()) == []
+
+
 def test_apitoken_manager_create_token(user0):
     token = APIToken.objects.create_token(user=user0)
 
