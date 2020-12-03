@@ -43,7 +43,7 @@ class BaseEmailUser(AbstractUser):
         return self.email
 
     def natural_key(self):
-        return self.email
+        return (self.email,)
 
 
 class BaseEmailConfirmation(models.Model):  # pragma: no cover
