@@ -12,7 +12,7 @@ def test_user_get_short_name(user0):
 
 
 def test_user_natural_key(user0):
-    assert user0.natural_key() == 'bob@example.com'
+    assert user0.natural_key() == ('bob@example.com',)
 
 
 def test_user_manager_get_by_natural_key(user0, user1):

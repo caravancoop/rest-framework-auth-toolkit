@@ -5,6 +5,12 @@
 Require Django 2.2 (LTS release) or 3.1
 and Python 3.7 or 3.8 #115
 
+### Upgrade notes
+
+`BaseUserEmail.natural_key` now returns a 1-element tuple
+with the email field value.
+
+
 ## v0.10
 
 Django password validators are now applied during signup #23
