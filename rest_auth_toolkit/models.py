@@ -13,7 +13,7 @@ from .managers import BaseEmailUserManager, BaseAPITokenManager
 from .utils import get_setting
 
 
-email_confirmed = Signal(providing_args=['user'])
+email_confirmed = Signal()
 
 
 class BaseEmailUser(AbstractUser):
