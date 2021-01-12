@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.urls import reverse
 
 from demo.accounts.models import User, APIToken
@@ -22,6 +24,13 @@ def test_signup_same_as_password(db, django_app):
     assert "password" in resp.json
 
 
+def test_signup_missing_email(db, django_app):
+    params = {"password": "little bobby passwords"}
+    resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
+
+    assert "email" in resp.json
+
+
 def test_signup_invalid_email(db, django_app):
     params = {"email": "bobby", "password": "bobby@example.com"}
     resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
@@ -37,10 +46,14 @@ def test_signup_already_exists(db, django_app, user0):
 
 
 def test_login(db, django_app, user0):
+    assert user0.last_login is None
+
     params = {"email": "bob@example.com", "password": "pass123"}
     resp = django_app.post_json(reverse("auth:login"), params=params, status=200)
 
     assert "token" in resp.json
+    user0.refresh_from_db()
+    assert isinstance(user0.last_login, datetime)
 
 
 def test_login_unknown_user(db, django_app):

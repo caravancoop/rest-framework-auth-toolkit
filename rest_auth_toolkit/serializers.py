@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import password_validation
+from django.contrib.auth.signals import user_logged_in
 from django.core import exceptions
 from django.utils.translation import gettext as _
 
@@ -64,6 +65,9 @@ class LoginDeserializer(serializers.Serializer):
             msg = _('Invalid email or password')
             raise ValidationError({'errors': [msg]})
 
+        request = self.context.get("request")
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
+
         return {'user': user}
 
 
@@ -88,5 +92,8 @@ class FacebookLoginDeserializer(serializers.Serializer):
             settings.FACEBOOK_APP_ID, settings.FACEBOOK_APP_SECRET_KEY)
 
         user = User.objects.get_or_create_facebook_user(data, extended_token)[0]
+
+        request = self.context.get("request")
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
 
         return {'user': user}
