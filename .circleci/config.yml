@@ -65,9 +65,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - py38-v1-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
-            - py38-v1-{{ arch }}-{{ checksum "requirements-test.txt" }}
-            - py38-v1-{{ arch }}-
+            - py38-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+            - py38-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}
+            - py38-v2-{{ arch }}-
       - run:
           name: Install CI tools
           command: |
@@ -80,7 +80,7 @@ jobs:
           name: Test with Python 3.8 and Django 3.1
           command: venv/bin/tox -e py38-dj31
       - save_cache:
-          key: py38-v1-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+          key: py38-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
