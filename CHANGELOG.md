@@ -3,7 +3,7 @@
 ## v0.11 (unreleased)
 
 Require Django 2.2 (LTS release) or 3.1
-and Python 3.7 or 3.8 #115
+and Python 3.8 or 3.9 #115
 
 ### Upgrade notes
 

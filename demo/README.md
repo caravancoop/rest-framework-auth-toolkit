@@ -12,7 +12,7 @@ To make the package `rest_auth_toolkit` importable by the demo app,
 run this command from the repository root:
 
 ```
-flit install --symlink
+flit install --symlink --env
 ```
 
 You won't need to run that again if code in `rest_auth_toolkit` changes.
