@@ -46,7 +46,7 @@ class BaseEmailUser(AbstractUser):
         return (self.email,)
 
 
-class BaseEmailConfirmation(models.Model):  # pragma: no cover
+class BaseEmailConfirmation(models.Model):
     """Abstract model for email confirmations.
 
     Subclass in your project to customize to your needs and make
@@ -90,6 +90,12 @@ class BaseAPIToken(models.Model):
     You can override generate_key in your concrete class to change
     the way the keys are created.  You can also redefine the key field.
 
+    The default logout view calls the revoke method, which by default
+    deletes the row, and can be overriden to customize behaviour.
+    For example, you could implement soft deletes with a custom model
+    field (boolean or datetime) and a matching custom authentication
+    class that checks the custom field.
+
     Adapted from rest_framework.authtoken.
     """
     key = models.CharField(_('key'), max_length=40, primary_key=True)
@@ -112,3 +118,6 @@ class BaseAPIToken(models.Model):
 
     def generate_key(self):
         return binascii.hexlify(os.urandom(20)).decode()
+
+    def revoke(self):
+        self.delete()

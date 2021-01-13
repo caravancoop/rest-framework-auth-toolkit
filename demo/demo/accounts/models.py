@@ -53,6 +53,3 @@ class EmailConfirmation(BaseEmailConfirmation, TimeStampedModel):
 
 class APIToken(BaseAPIToken, models.Model):
     created = AutoCreatedField(_('created'))
-
-    def revoke(self):
-        self.delete()

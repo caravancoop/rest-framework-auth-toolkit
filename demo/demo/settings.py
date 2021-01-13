@@ -102,13 +102,11 @@ TIME_ZONE = 'UTC'
 
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # This is the real authn policy for API clients
-        'demo.accounts.authentication.APITokenAuthentication',
+        'rest_auth_toolkit.authentication.TokenAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
