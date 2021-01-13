@@ -14,6 +14,10 @@ django-rest-framework settings for API auth.
 The `BaseAPIToken` class provides a default `revoke` method
 needed by the logout view.
 
+Email addresses can be normalized by serializers using the
+new `CustomEmailField` class.  Default behaviour does not
+normalize before checking uniqueness or saving data.
+
 Login now sends `user_logged_in` signal.  If you have
 `django.contrib.auth` in `INSTALLED_APPS` and your user model
 has a `last_login` field, it will be automatically updated.

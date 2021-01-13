@@ -1,6 +1,6 @@
 import pytest
 
-from demo.accounts.models import User, APIToken
+from demo.accounts.models import User, EmailConfirmation, APIToken
 
 
 @pytest.fixture
@@ -24,6 +24,15 @@ def userfb0(db):
         facebook_id="1234dddd",
         facebook_access_token="oauthtoken1111",
         is_active=True,
+    )
+
+
+@pytest.fixture
+def emailconfirmation0(user0):
+    user0.is_active = False
+    user0.save()
+    return EmailConfirmation.objects.create(
+        user=user0,
     )
 
 

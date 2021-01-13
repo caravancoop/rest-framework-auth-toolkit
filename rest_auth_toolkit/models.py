@@ -46,7 +46,7 @@ class BaseEmailUser(AbstractUser):
         return (self.email,)
 
 
-class BaseEmailConfirmation(models.Model):  # pragma: no cover
+class BaseEmailConfirmation(models.Model):
     """Abstract model for email confirmations.
 
     Subclass in your project to customize to your needs and make

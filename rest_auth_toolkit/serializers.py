@@ -13,6 +13,8 @@ try:
 except ImportError:
     facepy = None
 
+from .fields import CustomEmailField
+
 
 User = get_user_model()
 
@@ -24,13 +26,13 @@ class SignupDeserializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'password')
         extra_kwargs = {
-            'password': {'style': {'input_type': 'password'}},
+            'password': {'write_only': True, 'style': {'input_type': 'password'}},
         }
 
     def validate(self, data):
         password = data['password']
 
-        # Create user object without saving it to get extra checks by validators
+        # Instantiate user object without saving it to get extra checks by validators
         user = User(**data)
 
         errors = {}
@@ -55,7 +57,7 @@ class SignupDeserializer(serializers.ModelSerializer):
 class LoginDeserializer(serializers.Serializer):
     """Deserializer to find a user from credentials."""
 
-    email = serializers.EmailField()
+    email = CustomEmailField()
     password = serializers.CharField(style={'input_type': 'password'})
 
     def validate(self, data):
