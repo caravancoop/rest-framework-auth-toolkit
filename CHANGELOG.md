@@ -1,5 +1,8 @@
 # Changelog for Rest-Framework-Auth-Toolkit
 
+## v0.12 (unreleased)
+
+
 ## v0.11
 
 Tests are run with combinations of Python 3.8 and 3.9
