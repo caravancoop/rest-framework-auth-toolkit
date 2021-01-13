@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import password_validation
+from django.contrib.auth.signals import user_logged_in
 from django.core import exceptions
 from django.utils.translation import gettext as _
 
@@ -14,6 +15,8 @@ try:
 except ImportError:
     facepy = None
 
+from .fields import CustomEmailField
+
 
 User = get_user_model()
 EmailConfirmation = get_object_from_setting('email_confirmation_class')
@@ -26,13 +29,13 @@ class SignupDeserializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'password')
         extra_kwargs = {
-            'password': {'style': {'input_type': 'password'}},
+            'password': {'write_only': True, 'style': {'input_type': 'password'}},
         }
 
     def validate(self, data):
         password = data['password']
 
-        # Create user object without saving it to get extra checks by validators
+        # Instantiate user object without saving it to get extra checks by validators
         user = User(**data)
 
         errors = {}
@@ -82,7 +85,7 @@ class EmailConfirmationDeserializer(serializers.Serializer):
 class LoginDeserializer(serializers.Serializer):
     """Deserializer to find a user from credentials."""
 
-    email = serializers.EmailField()
+    email = CustomEmailField()
     password = serializers.CharField(style={'input_type': 'password'})
 
     def validate(self, data):
@@ -91,6 +94,9 @@ class LoginDeserializer(serializers.Serializer):
         if user is None:
             msg = _('Invalid email or password')
             raise ValidationError({'errors': [msg]})
+
+        request = self.context.get("request")
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
 
         return {'user': user}
 
@@ -116,5 +122,8 @@ class FacebookLoginDeserializer(serializers.Serializer):
             settings.FACEBOOK_APP_ID, settings.FACEBOOK_APP_SECRET_KEY)
 
         user = User.objects.get_or_create_facebook_user(data, extended_token)[0]
+
+        request = self.context.get("request")
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
 
         return {'user': user}

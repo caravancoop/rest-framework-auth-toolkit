@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import ProfileView
 
 
 urlpatterns = [
-    url(r'', ProfileView.as_view(), name='user-profile'),
+    path('', ProfileView.as_view(), name='user-profile'),
 ]

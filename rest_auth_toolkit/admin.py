@@ -11,7 +11,6 @@ class BaseEmailUserAdmin(UserAdmin):
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    # add_form_template = None
     add_fieldsets = (
         (None, {
             'classes': ('wide',),

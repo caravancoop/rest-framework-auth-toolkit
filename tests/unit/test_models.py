@@ -12,7 +12,7 @@ def test_user_get_short_name(user0):
 
 
 def test_user_natural_key(user0):
-    assert user0.natural_key() == 'bob@example.com'
+    assert user0.natural_key() == ('bob@example.com',)
 
 
 def test_user_manager_get_by_natural_key(user0, user1):
@@ -91,6 +91,12 @@ def test_apitoken_custom_generate_key(monkeypatch, user0):
     token.save()
 
     assert token.key == '2345bcde'
+
+
+def test_apitoken_revoke(token0):
+    token0.revoke()
+
+    assert list(APIToken.objects.all()) == []
 
 
 def test_apitoken_manager_create_token(user0):

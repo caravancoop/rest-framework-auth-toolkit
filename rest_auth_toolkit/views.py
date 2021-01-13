@@ -80,7 +80,7 @@ class SignupView(generics.GenericAPIView):
             email_field = user.get_email_field_name()
             send_email(request, user, getattr(user, email_field), confirmation)
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(deserializer.data, status=status.HTTP_201_CREATED)
 
 
 def send_email(request, user, address, confirmation):
