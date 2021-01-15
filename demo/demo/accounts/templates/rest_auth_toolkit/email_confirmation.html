@@ -1,0 +1,25 @@
+{% load i18n demotags %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="background-color: #F7F8FA;">
+<div>
+
+<p>
+  {% trans "Follow this link to validate your email:" %}<br>
+  {% url "pages:confirm-email" token=confirmation.external_id as confirmation_url %}
+  {% frontend_base_url as base_url %}
+  <a href="{{ base_url }}{{ confirmation_url }}">{{ base_url }}{{ confirmation_url }}</a>
+</p>
+
+<p>
+  {% trans "Or send an API request to simulate a front-end application:" %}<br>
+  <code>HTTP POST {{ base_url }}{% url "auth:confirm" %} email="{{ user.email }}" token="{{ confirmation.external_id }}"</code>
+</p>
+
+</div>
+</body>
+</html>

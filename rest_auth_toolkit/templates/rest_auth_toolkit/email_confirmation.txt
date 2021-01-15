@@ -1,7 +1,0 @@
-{% autoescape off %}
-{% load i18n %}
-
-{% trans "Follow this link to validate your email:" %}
-{{ confirmation_url }}
-
-{% endautoescape %}
