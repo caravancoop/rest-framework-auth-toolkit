@@ -7,6 +7,7 @@ from rest_framework.serializers import ModelSerializer
 class AccountsConfig(AppConfig):
     name = 'demo.accounts'
     label = 'accounts'
+    default_auto_field = 'django.db.models.BigAutoField'
 
     def ready(self):
         from rest_auth_toolkit.fields import CustomEmailField
