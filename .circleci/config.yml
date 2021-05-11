@@ -47,9 +47,12 @@ jobs:
             python="<< parameters.python >>"
             pyshort="${python//./}"
             venv/bin/tox -e py${pyshort}-dj<< parameters.django >> -- --junitxml=~/reports/tox/coverage.xml
-      - run:
-          name: Check coverage with Python << parameters.python >>
-          command: venv/bin/tox -e coverage
+      - when:
+          condition: { equal: [<< parameters.python >>, "3.9"] }
+          steps:
+            - run:
+                name: Check coverage with Python << parameters.python >>
+                command: venv/bin/tox -e coverage
       - save_cache:
           key: py<< parameters.python >>-dj<< parameters.django>>-v1-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
