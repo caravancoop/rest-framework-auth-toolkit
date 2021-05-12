@@ -1,5 +1,5 @@
 [build-system]
-requires = ["flit_core>=2,<4"]
+requires = ["flit_core ~= 3.2.0"]
 build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
@@ -21,6 +21,7 @@ classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 2.2",
     "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
 ]
 requires = [
     "django >= 2.2",
@@ -28,3 +29,6 @@ requires = [
 
 [tool.flit.metadata.requires-extra]
 facebook = ["facepy"]
+
+[tool.flit.metadata.urls]
+Changelog = "https://github.com/caravancoop/rest-framework-auth-toolkit/blob/main/CHANGELOG.md"
