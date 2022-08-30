@@ -1,14 +1,13 @@
 [build-system]
-requires = ["flit_core ~= 3.2.0"]
+requires = ["flit_core == 3.4.*"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "rest_auth_toolkit"
-dist-name = "Rest_Framework_Auth_Toolkit"
-author = "Caravan Coop"
-author-email = "hi@caravan.coop"
-home-page = "https://github.com/caravancoop/rest-framework-auth-toolkit"
-description-file = "README.md"
+[project]
+dynamic = ["version", "description"]
+name = "Rest_Framework_Auth_Toolkit"
+authors = [ { name = "Caravan Coop", email = "hi@caravan.coop" } ]
+readme = "README.md"
+requires-python = ">= 3.8"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -16,19 +15,23 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Framework :: Django",
-    "Framework :: Django :: 2.2",
-    "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
 ]
-requires = [
+dependencies = [
     "django >= 2.2",
 ]
 
-[tool.flit.metadata.requires-extra]
+[project.optional-dependencies]
 facebook = ["facepy"]
 
-[tool.flit.metadata.urls]
+[project.urls]
+Homepage = "https://github.com/caravancoop/rest-framework-auth-toolkit"
 Changelog = "https://github.com/caravancoop/rest-framework-auth-toolkit/blob/main/CHANGELOG.md"
+
+[tool.flit.module]
+name = "rest_auth_toolkit"

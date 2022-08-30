@@ -8,6 +8,7 @@ class RestAuthToolkitConfig(AppConfig):
     email_confirmed is emitted.
     """
     name = 'rest_auth_toolkit'
+    default = True
 
     def ready(self):
         from .models import email_confirmed
