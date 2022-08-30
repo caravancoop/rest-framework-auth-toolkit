@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-06 16:41-0400\n"
+"POT-Creation-Date: 2022-08-30 18:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Dates importantes"
 msgid "email address"
 msgstr "adresse électronique"
 
-#: models.py:36 models.py:56 models.py:98
+#: models.py:36 models.py:56 models.py:104
 msgid "user"
 msgstr "utilisateur"
 
@@ -46,11 +46,15 @@ msgstr "utilisateurs"
 msgid "confirmed"
 msgstr "confirmé"
 
-#: models.py:95
+#: models.py:101
 msgid "key"
 msgstr "clé"
 
-#: serializers.py:42
+#: serializers.py:56
+msgid "Email address already used by another account"
+msgstr "Adresse électronique déjà utilisée par un autre compte"
+
+#: serializers.py:70
 msgid "Invalid email or password"
 msgstr "Adresse électronique ou mot de passe invalide"
 
@@ -59,6 +63,6 @@ msgstr "Adresse électronique ou mot de passe invalide"
 msgid "Follow this link to validate your email:"
 msgstr "Suivez ce lien pour valider votre adresse électronique:"
 
-#: views.py:122
+#: views.py:150
 msgid "Confirm your email address"
 msgstr "Confirmez votre adresse électronique"

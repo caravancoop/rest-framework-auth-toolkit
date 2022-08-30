@@ -50,7 +50,7 @@ def test_signup_invalid_email(db, django_app):
     "bob@example.COM",
 ])
 def test_signup_already_exists(db, django_app, user0, email):
-    params = {"email": email, "password": "pass123"}
+    params = {"email": email, "password": "pass123@!!"}
     resp = django_app.post_json(reverse("auth:signup"), params=params, status=400)
 
     assert "email" in resp.json

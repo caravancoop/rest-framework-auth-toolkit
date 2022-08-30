@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import password_validation
 from django.contrib.auth.signals import user_logged_in
 from django.core import exceptions
+from django.db.utils import IntegrityError
 from django.utils.translation import gettext as _
 
 from rest_framework import serializers
@@ -21,6 +22,8 @@ User = get_user_model()
 
 class SignupDeserializer(serializers.ModelSerializer):
     """Deserializer to create users without username."""
+
+    email = CustomEmailField()
 
     class Meta:
         model = User
@@ -47,11 +50,11 @@ class SignupDeserializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        return User.objects.create_user(
-            email=validated_data['email'],
-            password=validated_data['password'],
-            is_active=False,
-        )
+        try:
+            return User.objects.create_user(**validated_data, is_active=False)
+        except IntegrityError:
+            msg = _('Email address already used by another account')
+            raise serializers.ValidationError({'email': [msg]})
 
 
 class LoginDeserializer(serializers.Serializer):
