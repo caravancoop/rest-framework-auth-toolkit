@@ -2,6 +2,9 @@
 
 ## v0.12 (unreleased)
 
+Library tested with Python 3.9 and 3.10,
+and Django 3.2, 4.0 and 4.1 (#172)
+
 
 ## v0.11
 

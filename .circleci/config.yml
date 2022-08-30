@@ -7,8 +7,8 @@ workflows:
           name: test-py<< matrix.python >>-dj<< matrix.django >>
           matrix:
             parameters:
-              python: ["3.9", "3.8"]
-              django: ["3.2", "3.1", "2.2"]
+              python: ["3.10", "3.9"]
+              django: ["4.1", "4.0", "3.2"]
       - check
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
         type: string
     docker:
       - image: cimg/python:<< parameters.python >>
-      - image: circleci/postgres:10.5
+      - image: cimg/postgres:14.0
         environment:
           POSTGRES_DB: circle_test
           POSTGRES_USER: testapp
@@ -48,7 +48,7 @@ jobs:
             pyshort="${python//./}"
             venv/bin/tox -e py${pyshort}-dj<< parameters.django >> -- --junitxml=~/reports/tox/coverage.xml
       - when:
-          condition: { equal: [<< parameters.python >>, "3.9"] }
+          condition: { equal: [<< parameters.python >>, "3.10"] }
           steps:
             - run:
                 name: Check coverage with Python << parameters.python >>
@@ -63,7 +63,7 @@ jobs:
 
   check:
     docker:
-      - image: cimg/python:3.9
+      - image: cimg/python:3.10
     working_directory: ~/rest-auth-toolkit
     steps:
       - checkout
