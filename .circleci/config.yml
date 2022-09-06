@@ -48,13 +48,16 @@ jobs:
             pyshort="${python//./}"
             venv/bin/tox -e py${pyshort}-dj<< parameters.django >> -- --junitxml=~/reports/tox/coverage.xml
       - when:
-          condition: { equal: [<< parameters.python >>, "3.10"] }
+          condition:
+            and:
+              - equal: [<< parameters.python >>, "3.10"]
+              - equal: [<< parameters.django >>, "4.0"]
           steps:
             - run:
                 name: Check coverage with Python << parameters.python >>
                 command: venv/bin/tox -e coverage
       - save_cache:
-          key: py<< parameters.python >>-dj<< parameters.django>>-v1-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
+          key: py<< parameters.python >>-dj<< parameters.django>>-v2-{{ arch }}-{{ checksum "requirements-test.txt" }}-{{ checksum "demo/requirements.txt" }}
           paths:
             - venv
             - .tox
@@ -68,7 +71,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: check-v1
+          key: check-v2
       - run:
           name: Install CI tools
           command: |
@@ -78,7 +81,7 @@ jobs:
           name: Check packaging and dependencies
           command: venv/bin/tox -e pkg
       - save_cache:
-          key: check-v1
+          key: check-v2
           paths:
             - venv
             - .tox
