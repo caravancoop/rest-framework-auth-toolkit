@@ -3,11 +3,11 @@
 ## v0.12
 
 Library tested with Python 3.9 and 3.10,
-and Django 3.2, 4.0 and 4.1 (#172)
+and Django 3.2, 4.0 and 4.1 (#172, #208)
 
 `SignupDeserializer.create` passes all validated data to the
-`create_user` method, so that data for extra fields in your
-subclasses automatically get passed to the model instance
+`AUTH_USER.objects.create_user` method, so that data for extra
+fields in your serializer subclass gets passed automatically
 
 
 ## v0.11
