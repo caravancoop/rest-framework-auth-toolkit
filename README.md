@@ -23,8 +23,8 @@ that you can integrate and customize in your own apps.
 
 See the [demo](demo/) app for example usage.
 
-⚠️ This library is not stable yet, make sure to pin your dependencies.
-Recommended form: `rest-framework-auth-toolkit == 0.9.*`
+⚠️ This library is in beta stage, make sure to pin your dependencies.
+Recommended form: `rest-framework-auth-toolkit == 0.12.*`
 
 See the [changelog](CHANGELOG.md) for breaking changes.
 
