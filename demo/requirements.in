@@ -1,5 +1,5 @@
 flit
-pip-tools == 6.10.*
+pip-tools == 6.12.*
 
 django == 4.0.*
 djangorestframework
