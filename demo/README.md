@@ -18,7 +18,6 @@ flit install --symlink --env
 You won't need to run that again if code in `rest_auth_toolkit` changes.
 
 Then go into the `demo` directory and install the app dependencies:
-Move to the demo directory in your terminal:
 
 ```
 cd demo
