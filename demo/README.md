@@ -5,6 +5,7 @@ the package and helps checking if changes break usage.
 
 This app is also used by the automated tests.
 
+
 ## How to install
 
 To make the package `rest_auth_toolkit` importable by the demo app,
