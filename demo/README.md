@@ -28,7 +28,7 @@ Finally, you'll need to create the database (only once), for example
 using psql:
 
 ```
-create database ratk with owner ratk
+create database ratk with owner ratk;
 ```
 
 # How to run
