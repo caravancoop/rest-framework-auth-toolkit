@@ -1,6 +1,9 @@
 # Changelog for Rest-Framework-Auth-Toolkit
 
-## v0.13 (unreleased)
+## v0.13
+
+Tested with Python 3.10, 3.11 and 3.12,
+and Django 3.2, 4.1 and 4.2.
 
 
 ## v0.12

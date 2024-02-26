@@ -1,12 +1,11 @@
 import os
 import binascii
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.dispatch import Signal
-from django.utils.timezone import utc
 from django.utils.translation import gettext_lazy as _
 
 from .managers import BaseEmailUserManager, BaseAPITokenManager
@@ -71,7 +70,7 @@ class BaseEmailConfirmation(models.Model):
         The time period to confirm an email is configured with the setting
         email_confirmation_validity_period, which defaults to 60 minutes.
         """
-        now = datetime.now(utc)
+        now = datetime.now(timezone.utc)
         delay = (now - self.created).total_seconds()
         validity = get_setting('email_confirmation_validity_period', 60) * 60
 

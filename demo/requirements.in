@@ -1,23 +1,21 @@
 flit
-pip-tools == 6.10.*
+pip-tools == 7.4.*
 
-django == 4.0.*
+django == 4.2.*
 djangorestframework
 django-debug-toolbar
 dj-database-url
 psycopg2
 
 django-model-utils
-django-shortuuidfield
+shortuuid
 
-# TODO add editable install for rest-framework-auth-toolkit
-# (when supported by pip and pip-compile); see README for how to install rest-auth-toolkit
-#-e ..[facebook]
-# In the meantime we include facepy here to make sure requirements.txt
-# contains all transitive dependencies
-facepy
+-e ..[facebook]
 
 # API docs
 coreapi
 markdown
 pygments
+
+# old dependency retained to keep migrations working
+django-shortuuidfield
