@@ -34,9 +34,13 @@ See the [changelog](CHANGELOG.md) for breaking changes.
 To run tests:
 
 ```
-export DATABASE_URL=postgres://ratk@localhost:5432/ratk
+export DATABASE_URL=postgres://ratk:ktar@localhost:5432/ratk
 tox
 ```
 
-You will have to create the `ratk` role first, as well as
-the `ratk` and `test_ratk` databases.
+You will have to create the `ratk` role first, for example using psql:
+
+```
+create role ratk login createdb;
+alter role rath with password encrypted 'ktar';
+```

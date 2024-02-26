@@ -7,8 +7,8 @@ workflows:
           name: test-py<< matrix.python >>-dj<< matrix.django >>
           matrix:
             parameters:
-              python: ["3.10", "3.9"]
-              django: ["4.1", "4.0", "3.2"]
+              python: ["3.12", "3.11", "3.10"]
+              django: ["4.2", "4.1", "3.2"]
       - check
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
         type: string
     docker:
       - image: cimg/python:<< parameters.python >>
-      - image: cimg/postgres:14.0
+      - image: cimg/postgres:15.5
         environment:
           POSTGRES_DB: circle_test
           POSTGRES_USER: testapp
@@ -50,8 +50,8 @@ jobs:
       - when:
           condition:
             and:
-              - equal: [<< parameters.python >>, "3.10"]
-              - equal: [<< parameters.django >>, "4.0"]
+              - equal: [<< parameters.python >>, "3.12"]
+              - equal: [<< parameters.django >>, "4.2"]
           steps:
             - run:
                 name: Check coverage with Python << parameters.python >>
@@ -66,12 +66,12 @@ jobs:
 
   check:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.12
     working_directory: ~/rest-auth-toolkit
     steps:
       - checkout
       - restore_cache:
-          key: check-v2
+          key: check-v3
       - run:
           name: Install CI tools
           command: |
@@ -81,7 +81,7 @@ jobs:
           name: Check packaging and dependencies
           command: venv/bin/tox -e pkg
       - save_cache:
-          key: check-v2
+          key: check-v3
           paths:
             - venv
             - .tox

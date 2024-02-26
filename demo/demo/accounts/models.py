@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from model_utils.fields import AutoCreatedField
 from model_utils.models import TimeStampedModel
-from shortuuidfield import ShortUUIDField
+from shortuuid.django_fields import ShortUUIDField
 
 from rest_auth_toolkit.managers import BaseEmailUserManager
 from rest_auth_toolkit.models import BaseEmailUser, BaseAPIToken, BaseEmailConfirmation
