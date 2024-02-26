@@ -5,19 +5,30 @@ the package and helps checking if changes break usage.
 
 This app is also used by the automated tests.
 
+## How to install
+
+To make the package `rest_auth_toolkit` importable by the demo app,
+run this command from the repository root:
+
+```
+flit install --symlink --env
+```
+
+You won't need to run that again if code in `rest_auth_toolkit` changes.
+
+Then go into the `demo` directory and install the app dependencies:
 Move to the demo directory in your terminal:
 
 ```
 cd demo
-```
-
-## How to install
-
-Install the app dependencies, including `rest_auth_toolkit` from the parent
-directory, with this command:
-
-```
 pip install -r requirements.txt
+```
+
+Finally, you'll need to create the database (only once), for example
+using psql:
+
+```
+create database ratk with owner ratk
 ```
 
 # How to run

@@ -10,7 +10,10 @@ psycopg2
 django-model-utils
 shortuuid
 
--e ..[facebook]
+# we can't add "-e ..[facebook]" here in a way that works correctly in the
+# pinned requirements file, so we include facepy to make sure requirements.txt
+# contains all transitive dependencies
+facepy
 
 # API docs
 coreapi
