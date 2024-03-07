@@ -1,13 +1,7 @@
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-<!doctype html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site_name }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ site_name }}{% endblock %}
+
+{% block body %}
 <script>
   window.fbAsyncInit = function() {
     FB.init({appId: "{{ fb_app_id }}", xfbml: true, version: "v2.9"});
@@ -34,12 +28,11 @@
 <div id="fb-root"></div>
 
 <div>
-  <h1>Hello!</h1>
+  <h1>Hello world!</h1>
   <button onclick="fb_login()">Login with Facebook</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}

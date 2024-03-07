@@ -1,0 +1,11 @@
+{% autoescape off %}
+{% load i18n demotags %}
+
+{% trans "Follow this link to validate your email:" %}
+{% frontend_base_url as base_url %}
+{{ base_url }}{% url "pages:confirm-email" token=confirmation.external_id %}
+
+{% trans "Or send an API request to simulate a front-end application:" %}
+  HTTP POST {{ base_url }}{% url "auth:confirm" %} email="{{ user.email }}" token="{{ confirmation.external_id }}"
+
+{% endautoescape %}

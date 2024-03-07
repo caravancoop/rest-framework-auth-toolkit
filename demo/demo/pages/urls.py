@@ -8,4 +8,5 @@ app_name = 'pages'
 
 urlpatterns = [
     path('', views.index, name='root'),
+    path('welcome/<token>/', views.confirm_email, name='confirm-email'),
 ]

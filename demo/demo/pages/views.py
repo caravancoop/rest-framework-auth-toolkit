@@ -14,12 +14,12 @@ def index(request):
     return render(request, 'index.html', context=ctx)
 
 
-def email_view(request, external_id):
+def confirm_email(request, token):
     """Landing page for links in confirmation emails."""
     error = None
 
     try:
-        confirmation = EmailConfirmation.objects.get(external_id=external_id)
+        confirmation = EmailConfirmation.objects.get(external_id=token)
         confirmation.confirm()
     except EmailConfirmation.DoesNotExist:
         error = _('Invalid link')
@@ -33,4 +33,8 @@ def email_view(request, external_id):
         }
         return render(request, 'error.html', context=ctx)
     else:
-        return index(request)
+        ctx = {
+            'site_name': 'Demo',
+            'email': confirmation.user.email,
+        }
+        return render(request, 'welcome.html', context=ctx)

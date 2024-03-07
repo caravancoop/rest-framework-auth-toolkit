@@ -5,7 +5,7 @@ class RestAuthToolkitConfig(AppConfig):
     """Default app config for RATK.
 
     This installs a signal handler to set user.is_active when
-    email_confirmed is emitted.
+    email_confirmed is emitted by EmailConfirmationView.
     """
     name = 'rest_auth_toolkit'
     default = True

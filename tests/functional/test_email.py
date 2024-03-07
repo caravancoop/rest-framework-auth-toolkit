@@ -67,8 +67,8 @@ def test_confirm_email(db, django_app, user0, emailconfirmation0):
     assert not user0.is_active
     assert emailconfirmation0.confirmed is None
 
-    django_app.get(reverse("app-auth:email-confirmation",
-                           kwargs={"external_id": emailconfirmation0.external_id}))
+    django_app.get(reverse("pages:confirm-email",
+                           kwargs={"token": emailconfirmation0.external_id}))
 
     user0.refresh_from_db()
     emailconfirmation0.refresh_from_db()
